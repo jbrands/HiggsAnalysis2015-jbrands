@@ -1,0 +1,52 @@
+#include "TTree.h"
+#include "TFile.h"
+#include "TRandom.h"
+#include "TTree.h"
+#include "TTree.h"
+
+Int_t Run, Event;
+Float_t x,y,z;
+
+void CreateParentTree() {
+  // create a simple TTree with 5 branches
+  // Two branches ("Run" and "Event") will be used to index the Tree
+  TFile *f = new TFile("treeparent.root","recreate");
+  TTree *T = new TTree("T","test friend trees");
+  T->Branch("Run",&Run,"Run/I");
+  T->Branch("Event",&Event,"Event/I");
+  T->Branch("x",&x,"x/F");
+  T->Branch("y",&y,"y/F");
+  T->Branch("z",&z,"z/F");
+  TRandom r;
+  for (Int_t i=0;i<10000;i++) {
+    if (i < 5000) Run = 1;
+    else          Run = 2;
+    Event = i;
+    x = r.Gaus(10,1);
+    y = r.Gaus(20,2);
+    z = r.Landau(2,1);
+    T->Fill();
+  }
+  T->Print();
+  T->Write();
+  delete f;
+}
+void CreateFriendTree() {
+  // Open the file created by CreateParentTree
+  // Copy a subset of the TTree into a new TTree
+  //   (see also tutorials copytree.C, copytree2.C and copytree3.C)
+  // Create an index on the new TTree ("Run","Event")
+  // Write the new TTree (including its index)
+
+  TFile *f = new TFile("treeparent.root");
+  TTree *T = (TTree*)f->Get("T");
+  TFile *ff = new TFile("treefriend.root","recreate");
+  TTree *TF = T->CopyTree("z<10");
+  TF->SetName("TF");
+  TF->BuildIndex("Run","Event");
+  TF->Write();
+  TF->Print();
+  delete ff;
+}
+
+
