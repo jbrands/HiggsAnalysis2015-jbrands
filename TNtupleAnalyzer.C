@@ -124,7 +124,12 @@ void TNtupleAnalyzer::run(){
       }
       SyncDATA->getJets();
       if( (sample.find("MC") != string::npos) || (sample.find("SUSY") != string::npos) ){
-	SyncDATA->getGenMatch( SyncDATA->s_lep, SyncDATA->s_tau);
+	gen_match_1 = SyncDATA->getGenMatch( SyncDATA->s_lep );
+	gen_match_2 = SyncDATA->getGenMatch( SyncDATA->s_tau );
+      }
+      else{
+	gen_match_1 = 0;
+	gen_match_2 = 0;
       }
 
       fillTree();
@@ -136,13 +141,16 @@ void TNtupleAnalyzer::run(){
     }// End loop over entries
 
     if(sample.find("WJets") != string::npos){
-      lumiWeight=sigma_wjets*lumi/events_wjets;
+      lumiWeight=sigma_wjets*lumi/events_wjets*filter_wjets;
     }
     else if(sample.find("DYJets") != string::npos){
-      lumiWeight=sigma_DY*lumi/events_DY;
+      lumiWeight=sigma_DY*lumi/events_DY*filter_DY;
     }
     else if(sample.find("TTbar") != string::npos){
-      lumiWeight=sigma_ttbar*lumi/events_ttbar;
+      lumiWeight=sigma_ttbar*lumi/events_ttbar*filter_ttbar;
+    }
+    else if(sample.find("QCD") != string::npos){
+      lumiWeight=sigma_QCD*lumi/events_QCD*filter_QCD;
     }
     else if(sample.find("VBFHiggs") != string::npos){
       lumiWeight=sigma_VBFHiggs*lumi/events_VBFHiggs;

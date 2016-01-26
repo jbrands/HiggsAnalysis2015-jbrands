@@ -11,10 +11,18 @@
 
 
 
-void run_mktree(TString particle="mu", TString in="", TString out=""){//float splitFactor_sig=0.5, float splitFactor_bg=splitFactor_sig){
+
+void run_mktree(TString channel="mt", TString in="", TString out=""){//float splitFactor_sig=0.5, float splitFactor_bg=splitFactor_sig){
   //float splitFactor_sig=1/0.6;
   //  float splitFactor_bg=1/0.4;
   float ptrain=0.5;
+  
+  TString sample[4]={"MC_VBFHiggs","MC_DYJetsToLL_madgraphMLM","MC_TTbar_powheg","MC_WJetsToLNu_madgraphMLM"};
+  TString direc = "/data/jbrandstetter/CMGTools/rootFiles_160114/";
+  
+  in = direc+"additionalSelection/";
+  out = direc+"BDTinput/";
+
   std::vector<TString> fname;
   TFile* tsigfile;
   TFile* tbgfile;
@@ -23,68 +31,13 @@ void run_mktree(TString particle="mu", TString in="", TString out=""){//float sp
 
   //   std::vector<TTree*> _ttree;                                                                                                                
   std::vector<int> signal;
-  //   std::vector<double> weight;                                                                                                                
-  if (particle=="ele"){
-    if (in=="") in="../files_17_08/e_hard/";
-    if (out=="") out="../files_17_08/e_hard/";
-  }
-  else if (particle=="mu"){
-    if (in=="") in="/data/jbrandstetter/CMGTools/rootFiles_151211/additionalSelection/outFiles_151214/";
-    if (out=="") out="/data/jbrandstetter/CMGTools/rootFiles_151211/additionalSelection/outFiles_151214/BDTinput/";
-  }
-  else {
-    cout<<"Error: Choose 'ele' or 'mu'!"<<endl;
-    exit();
-  }
+  //   std::vector<double> weight;                                                                                                 
+
+  fname.push_back(in+"Ntuple_"+sample[0]+"_"+channel+".root"); signal.push_back(1);
+  fname.push_back(in+"Ntuple_"+sample[1]+"_"+channel+".root"); signal.push_back(0);
+  fname.push_back(in+"Ntuple_"+sample[2]+"_"+channel+".root"); signal.push_back(0);
+  fname.push_back(in+"Ntuple_"+sample[3]+"_"+channel+".root"); signal.push_back(0);
   
-
-
-
-  TString dir=in;  
-  //const TString dir="../files_17_08/files_ele/hard_cuts/";
-  //const TString dir="../files_17_08/shape_unc/tau_energy_scale/Up/";
-  /*  
-  fname.push_back(dir+"ntuple_signal_13TeV_VBF.root"); signal.push_back(1);
-  fname.push_back(dir+"ntuple_bkg_tight_13TeV_VBF.root"); signal.push_back(0);
-  fname.push_back(dir+"ntuple_ttbar_13TeV_VBF.root"); signal.push_back(0);
-  fname.push_back(dir+"ntuple_wjets_13TeV_VBF.root"); signal.push_back(0);
-  fname.push_back(dir+"ntuple_wjets_13TeV_looseIso_VBF.root"); signal.push_back(0);
-  */
-  if (particle=="mu"){
-    fname.push_back(dir+"Ntuple_basis_mT70Cut_MC_VBFHiggs_mt.root"); signal.push_back(1);
-    fname.push_back(dir+"Ntuple_basis_mT70Cut_MC_DYJetsToLL_madgraphMLM_mt.root"); signal.push_back(0);
-    fname.push_back(dir+"Ntuple_basis_mT70Cut_MC_TTbar_powheg_mt.root"); signal.push_back(0);
-    fname.push_back(dir+"Ntuple_basis_mT70Cut_MC_WJetsToLNu_madgraphMLM_mt.root"); signal.push_back(0);
-  } else if (particle=="ele"){
-    fname.push_back(dir+"ntuple_signal_13TeV_onlyEle_VBF.root"); signal.push_back(1);
-    fname.push_back(dir+"ntuple_bkg_tight_13TeV_onlyEle_VBF.root"); signal.push_back(0);
-    fname.push_back(dir+"ntuple_ttbar_13TeV_onlyEle_VBF.root"); signal.push_back(0);
-    fname.push_back(dir+"ntuple_wjets_13TeV_onlyEle_VBF.root"); signal.push_back(0);
-    fname.push_back(dir+"ntuple_wjets_13TeV_onlyEle_looseIso_VBF.root"); signal.push_back(0);
-  }
-  //const TString output_const="../files_17_08/TrainingAndTestTrees/";
-  TString output_const=out;
-
-  /*
-  fname.push_back(dir+"wjets_ht/ntuple_wjets_ht100to200_13TeV_VBF.root"); signal.push_back(0);
-  fname.push_back(dir+"wjets_ht/ntuple_wjets_ht200to400_13TeV_VBF.root"); signal.push_back(0);
-  fname.push_back(dir+"wjets_ht/ntuple_wjets_ht400to600_13TeV_VBF.root"); signal.push_back(0);
-  fname.push_back(dir+"wjets_ht/ntuple_wjets_ht600toInf_13TeV_VBF.root"); signal.push_back(0);
-  */
-  /*
-  fname.push_back(dir+"wjets_ht/ntuple_wjets_ht100to200_13TeV_looseIso_VBF.root"); signal.push_back(0);
-  fname.push_back(dir+"wjets_ht/ntuple_wjets_ht200to400_13TeV_looseIso_VBF.root"); signal.push_back(0);
-  fname.push_back(dir+"wjets_ht/ntuple_wjets_ht400to600_13TeV_looseIso_VBF.root"); signal.push_back(0);
-  fname.push_back(dir+"wjets_ht/ntuple_wjets_ht600toInf_13TeV_looseIso_VBF.root"); signal.push_back(0);
-  */
-  //fname.push_back(dir+"ttbar/ntuple_ttbar_13TeV_VBF.root"); signal.push_back(0);
-
-  /*
-  const TString dir="./files_26_02/";
-  fname.push_back(dir+"ntuple_signal_13TeV_VBF.root"); signal.push_back(1);
-  fname.push_back(dir+"ntuple_bkg_tight_13TeV_VBF.root"); signal.push_back(0);
-  */
-
   int nsig=0;
   int nbg=0;
 
@@ -99,8 +52,13 @@ void run_mktree(TString particle="mu", TString in="", TString out=""){//float sp
 	std::cout << "Input file " << ftmp->GetName() << " does not exist!" << std::endl;
 	return;
       }
+      TDirectory *indir = dynamic_cast<TDirectory*>(ftmp->Get("incl_notwoprong_VBF"));
+      if(!indir){
+	std::cout << "Directory" << "incl_notwoprong_VBF" << " does not exist!" << endl;
+	return;
+      }
 
-      TTree *oldtree   = (TTree*)ftmp->Get("TauCheck");
+      TTree *oldtree   = (TTree*)indir->Get("TauCheck");
 
      
       int oldentries=oldtree->GetEntries();
@@ -118,37 +76,13 @@ void run_mktree(TString particle="mu", TString in="", TString out=""){//float sp
       }
 	  //      oldtree->SetBranchAddress("lep_isM", &lep_isM );
      
-      TString sig;
-      TString output=output_const;
-      TString output2=output;
-      TString output3=output;
-
-      if (i==3) {
-	output+="bg3_tight_train.root";   
-        output2+="bg3_tight_test.root";
-        output3+="bg3_tight_tot.root";
-      } else if (i==4) {
-        output+="bg3_loose_train.root";
-        output2+="bg3_loose_test.root";
-        output3+="bg3_loose_tot.root";
-
-      } else {
+      TString output=out;
+      TString output2=out;
+      TString output3=out;
    
-	if (signal.at(i)==1) {
-	  sig="sig"; 
-	  nsig++;
-	  output+=sig; output+=nsig; output+="_train"; output+=".root";
-	  output2+=sig; output2+=nsig; output2+="_test"; output2+=".root";
-	  output3+=sig; output3+=nsig; output3+="_tot"; output3+=".root";
-	} 
-	else {
-	  sig="bg"; 
-	  nbg++;
-	  output+=sig; output+=nbg; output+="_train"; output+=".root";
-	  output2+=sig; output2+=nbg; output2+="_test"; output2+=".root";
-	  output3+=sig; output3+=nbg; output3+="_tot"; output3+=".root";
-	}
-      }
+      output+="Ntuple_"+sample[i]+"_"+channel+"_train.root";
+      output2+="Ntuple_"+sample[i]+"_"+channel+"_test.root";
+      output3+="Ntuple_"+sample[i]+"_"+channel+"_tot.root";
       
       //TFile *newfile= new TFile("./files_26_02/"+sig+"_test.root","recreate");
       //TBranch *splitFactor=newtree->Branch("splitFactor",&splitFactor_var,"splitFactor/F");

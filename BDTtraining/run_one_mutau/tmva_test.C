@@ -19,7 +19,7 @@
 
 using namespace TMVA;
 
-void tmva_test( const int NVAR, const std::string varnames[], TString usevar="11111111111", int isTest=1,  TString histoname="", const TString mvatype="bdt", float ptrain_old=0.5 ) 
+void tmva_test( const std::string sample[], const std::string direc, const std::string channel, const int NVAR, const std::string varnames[], TString usevar="11111111111", int isTest=1,  TString histoname="", const TString mvatype="bdt", float ptrain_old=0.5 ) 
 {   
 
   /*
@@ -116,18 +116,19 @@ void tmva_test( const int NVAR, const std::string varnames[], TString usevar="11
    std::vector<int> ntot;
    
    //const TString dir="../files_14_04_02/";
-   const TString dir="/data/jbrandstetter/CMGTools/rootFiles_151211/additionalSelection/test_mt/BDTinput/";
+   const TString dir=direc+"BDTinput/";
+   //int sample_size = sizeof(sample)/sizeof(sample[0]);
+   int sample_size = 4; //This needs to be refined
    /*
    fname.push_back(dir+"bg_tot_MVA.root"); signal.push_back(1);
    fname.push_back(dir+"bg_tot_MVA.root"); signal.push_back(0);
    */
-   TString input[4];
-   input[0]=dir; input[0]+="sig1_"; input[0]+=type; input[0]+=".root";
-   input[1]=dir; input[1]+="bg1_";  input[1]+=type; input[1]+=".root";
-   input[2]=dir; input[2]+="bg2_";  input[2]+=type; input[2]+=".root";
-   //input[3]=dir; input[3]+="TrainingAndTestTrees/bg3_";  input[3]+=type; input[3]+=".root";   
-   //input[3]=dir; input[3]+="TrainingAndTestTrees/bg4_loose_";  input[3]+=type; input[3]+=".root";
-   input[3]=dir; input[3]+="bg3_tight_";  input[3]+=type; input[3]+=".root";
+   TString input[sample_size];
+   for(int i=0;i<sample_size;i++){
+     input[i]=dir+"Ntuple_"+sample[i]+"_"+channel+"_"+type+".root";
+     fname.push_back(input[i]);
+   }
+
     
    //input[0]=dir; input[0]+="TrainingAndTestTrees/sig1_"; input[0]+="tot"; input[0]+=".root";
    //input[1]=dir; input[1]+="TrainingAndTestTrees/bg1_";  input[1]+="tot"; input[1]+=".root";
@@ -145,10 +146,10 @@ void tmva_test( const int NVAR, const std::string varnames[], TString usevar="11
 
    //int ntot=3;//number of backgrounds that are also used for training -> only half of sample for testing
 
-   fname.push_back(input[0]); signal.push_back(1); ntot.push_back(0);//ntot: 0..ev also used for train, 1..all ev for test
-   fname.push_back(input[1]); signal.push_back(0); ntot.push_back(0);
-   fname.push_back(input[2]); signal.push_back(0); ntot.push_back(0); 
-   fname.push_back(input[3]); signal.push_back(0); ntot.push_back(0);
+   signal.push_back(1); ntot.push_back(0);//ntot: 0..ev also used for train, 1..all ev for test
+   signal.push_back(0); ntot.push_back(0);
+   signal.push_back(0); ntot.push_back(0); 
+   signal.push_back(0); ntot.push_back(0);
 
 
    /*                                                                                                 

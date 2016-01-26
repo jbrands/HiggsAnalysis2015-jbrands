@@ -1,0 +1,12 @@
+###################################################################
+# var cfg file
+# variable,nr_bins,min_value,max_value
+# no space between
+# lines starting with # are ignored
+###################################################################
+#m_vis,35,0,350
+#m_sv,20,20,220
+#mvapt_sum_VBF,20,0,200
+#met_centrality,20,-1,1
+#mvamt_1,11,0,110
+BDTscore,20,-1,1

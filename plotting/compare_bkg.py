@@ -23,8 +23,20 @@ fillColors =[2, 40, 28, 8, 1]
 styles = [0, 0, 0, 0, 20, 3, 4]
 sizes = [0,0,0,0,1.]
 
+def findTree_mT(f):
+    for key in f.GetListOfKeys():
+        print key.GetName()
+        tree = f.Get(key.GetName())
+        if isinstance(tree, ROOT.TTree) and key.GetName() == "TauCheck_nomT":
+            return tree
+        elif isinstance(tree, ROOT.TDirectory):
+            return findTree(tree)
+    print 'Failed to find a TTree in file', f
+    return None
+
 def findTree(f):
     for key in f.GetListOfKeys():
+        print key.GetName()
         tree = f.Get(key.GetName())
         if isinstance(tree, ROOT.TTree):
             return tree
@@ -32,6 +44,7 @@ def findTree(f):
             return findTree(tree)
     print 'Failed to find a TTree in file', f
     return None
+
 
 def applyHistStyle(h, i):
     h.SetLineColor(colors[i])
@@ -48,6 +61,7 @@ def comparisonPlots(u_names, selection, trees, titles, pname='DATA_vs_bkg.pdf', 
     display = DisplayManager(pname, ratio)
    
     for branch in u_names:
+        print branch
         nbins = 50
         min_x = min(t.GetMinimum(branch) for t in trees)
         max_x = max(t.GetMaximum(branch) for t in trees)
@@ -75,14 +89,24 @@ def comparisonPlots(u_names, selection, trees, titles, pname='DATA_vs_bkg.pdf', 
         for i,t in enumerate(trees):
             h_name = branch+t.GetName()+str(i)
             h = ROOT.TH1F(h_name, branch, nbins, min_x, max_x + (max_x - min_x) * 0.01)
-            if i==0: t.Project(h_name, branch, 'weight')
-            elif i==1: t.Project(h_name, branch, 'weight')
-            elif i==2: t.Project(h_name, branch, 'weight')
-            elif i==3: t.Project(h_name, branch, 'weight')
-            else: t.Project(h_name, branch, '1')
-            if i != 0 and i <= len(args)-2: 
-                h.Add(hist_tmp[i-1])
-            hist_tmp.append(h)
+            if(branch=="mvamt_1" or branch=="mt_1"):
+                if i==0: t.Project(h_name, branch, 'weight_mTCut')
+                elif i==1: t.Project(h_name, branch, 'weight_mTCut')
+                elif i==2: t.Project(h_name, branch, 'weight_mTCut')
+                elif i==3: t.Project(h_name, branch, 'weight_mTCut')
+                else: t.Project(h_name, branch, '1')
+                if i != 0 and i <= len(args)-2: 
+                    h.Add(hist_tmp[i-1])
+                hist_tmp.append(h)
+            else:
+                if i==0: t.Project(h_name, branch, 'weight')
+                elif i==1: t.Project(h_name, branch, 'weight')
+                elif i==2: t.Project(h_name, branch, 'weight')
+                elif i==3: t.Project(h_name, branch, 'weight')
+                else: t.Project(h_name, branch, '1')
+                if i != 0 and i <= len(args)-2: 
+                    h.Add(hist_tmp[i-1])
+                hist_tmp.append(h)
         
 
         hists = []
@@ -238,13 +262,19 @@ if __name__ == '__main__':
 
     #u_names = sorted(u_names)
 
-    #u_names = "pt_1","pt_2","m_vis"
-    u_names = "d0_1","d0_2","dZ_1","dZ_2","iso_1","pt_1","pt_2","eta_1","eta_2","jpt_1","jpt_2","jeta_1","jeta_2","bpt_1","beta_1","jdeta","jeta1eta2","mjj","met","mvamet","npv","mt_1","mvamt_1","mt_2","mvamt_2","m_vis","mvapt_sum_VBF","mvapt_VBF","met_centrality","lep_etacentrality","sphericity","dr_leptau","njets","nbtag_Vienna","BDTscore"
+    #u_names = "BDTscore","test"
+    u_names_mT = "mvamt_1","mt_1"
+    u_names = "d0_1","d0_2","dZ_1","dZ_2","iso_1","pt_1","pt_2","eta_1","eta_2","jpt_1","jpt_2","jeta_1","jeta_2","bpt_1","beta_1","jdeta","jeta1eta2","mjj","met","mvamet","npv","mt_1","mvamt_1","mt_2","mvamt_2","m_vis","svfit_mass","mvapt_sum_VBF","mvapt_VBF","met_centrality","lep_etacentrality","sphericity","dr_leptau","njets","nbtag_Vienna","BDTscore"
 
     print 'Making plots for all common branches', u_names
 
     comparisonPlots(u_names, options.selection, trees, titles, 'DATA_vs_bkg.pdf', options.do_ratio)
 
+    trees = trees = [findTree_mT(f) for f in tfiles]
+
+    print 'Making plots for all common branches', u_names
+
+    comparisonPlots(u_names_mT, options.selection, trees, titles, 'DATA_vs_bkg.pdf', options.do_ratio)
 
     #if len(trees) == 2 and options.do_intersect:
     #    intersect = interSect(trees[0], trees[1], save=True, titles=titles)

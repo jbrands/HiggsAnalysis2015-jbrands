@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Fri Dec 11 20:57:51 2015 by ROOT version 5.34/32
+// Thu Jan  7 15:20:36 2016 by ROOT version 5.34/32
 // from TTree TauCheck/TauCheck
-// found on file: /data/jbrandstetter/CMGTools/syncro/BASIS_ntuple_synchro_SUSYGluGlu_miniAOD2_mt.root
+// found on file: /data/jbrandstetter/CMGTools/rootFiles_160107/BASIS_ntuple_synchro_MC_WJetsToLNu_madgraphMLM_mt.root
 //////////////////////////////////////////////////////////
 
 #ifndef ntuple_h
@@ -13,6 +13,7 @@
 #include <TFile.h>
 
 // Header file for the classes stored in the TTree if any.
+#include <vector>
 
 // Fixed size dimensions of array or collections stored in the TTree if any.
 
@@ -90,34 +91,21 @@ public :
    Float_t         lep_etacentrality;
    Float_t         sphericity;
    Float_t         nadditional;
-   Float_t         addmuon_pt_1;
-   Float_t         addmuon_eta_1;
-   Float_t         addmuon_phi_1;
-   Float_t         addmuon_m_1;
-   Float_t         addmuon_q_1;
-   Float_t         addmuon_iso_1;
-   Float_t         addmuon_pt_2;
-   Float_t         addmuon_eta_2;
-   Float_t         addmuon_phi_2;
-   Float_t         addmuon_m_2;
-   Float_t         addmuon_q_2;
-   Float_t         addmuon_iso_2;
-   Float_t         addmuon_pt_3;
-   Float_t         addmuon_eta_3;
-   Float_t         addmuon_phi_3;
-   Float_t         addmuon_m_3;
-   Float_t         addmuon_q_3;
-   Float_t         addmuon_iso_3;
-   Float_t         addmuon_pt_4;
-   Float_t         addmuon_eta_4;
-   Float_t         addmuon_phi_4;
-   Float_t         addmuon_m_4;
-   Float_t         addmuon_q_4;
-   Float_t         addmuon_iso_4;
+   vector<double>  *addmuon_pt;
+   vector<double>  *addmuon_eta;
+   vector<double>  *addmuon_phi;
+   vector<double>  *addmuon_m;
+   vector<double>  *addmuon_q;
+   vector<double>  *addmuon_iso;
    Bool_t          passesIsoCuts;
    Bool_t          passesLepIsoCuts;
    Bool_t          passesTauLepVetos;
    Bool_t          passesThirdLepVeto;
+   Bool_t          passesDiMuonVeto;
+   Bool_t          passesDiElectronVeto;
+   Bool_t          dilepton_veto;
+   Bool_t          extraelec_veto;
+   Bool_t          extramuon_veto;
    Float_t         met;
    Float_t         metphi;
    Float_t         mvamet;
@@ -233,34 +221,21 @@ public :
    TBranch        *b_lep_etacentrality;   //!
    TBranch        *b_sphericity;   //!
    TBranch        *b_nadditional;   //!
-   TBranch        *b_addmuon_pt_1;   //!
-   TBranch        *b_addmuon_eta_1;   //!
-   TBranch        *b_addmuon_phi_1;   //!
-   TBranch        *b_addmuon_m_1;   //!
-   TBranch        *b_addmuon_q_1;   //!
-   TBranch        *b_addmuon_iso_1;   //!
-   TBranch        *b_addmuon_pt_2;   //!
-   TBranch        *b_addmuon_eta_2;   //!
-   TBranch        *b_addmuon_phi_2;   //!
-   TBranch        *b_addmuon_m_2;   //!
-   TBranch        *b_addmuon_q_2;   //!
-   TBranch        *b_addmuon_iso_2;   //!
-   TBranch        *b_addmuon_pt_3;   //!
-   TBranch        *b_addmuon_eta_3;   //!
-   TBranch        *b_addmuon_phi_3;   //!
-   TBranch        *b_addmuon_m_3;   //!
-   TBranch        *b_addmuon_q_3;   //!
-   TBranch        *b_addmuon_iso_3;   //!
-   TBranch        *b_addmuon_pt_4;   //!
-   TBranch        *b_addmuon_eta_4;   //!
-   TBranch        *b_addmuon_phi_4;   //!
-   TBranch        *b_addmuon_m_4;   //!
-   TBranch        *b_addmuon_q_4;   //!
-   TBranch        *b_addmuon_iso_4;   //!
+   TBranch        *b_addmuon_pt;   //!
+   TBranch        *b_addmuon_eta;   //!
+   TBranch        *b_addmuon_phi;   //!
+   TBranch        *b_addmuon_m;   //!
+   TBranch        *b_addmuon_q;   //!
+   TBranch        *b_addmuon_iso;   //!
    TBranch        *b_passesIsoCuts;   //!
    TBranch        *b_passesLepIsoCuts;   //!
    TBranch        *b_passesTauLepVetos;   //!
    TBranch        *b_passesThirdLepVeto;   //!
+   TBranch        *b_passesDiMuonVeto;   //!
+   TBranch        *b_passesDiElectronVeto;   //!
+   TBranch        *b_dilepton_veto;   //!
+   TBranch        *b_extraelec_veto;   //!
+   TBranch        *b_extramuon_veto;   //!
    TBranch        *b_met;   //!
    TBranch        *b_metphi;   //!
    TBranch        *b_mvamet;   //!
@@ -326,9 +301,9 @@ ntuple::ntuple(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/data/jbrandstetter/CMGTools/syncro/BASIS_ntuple_synchro_SUSYGluGlu_miniAOD2_mt.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/data/jbrandstetter/CMGTools/rootFiles_160107/BASIS_ntuple_synchro_MC_WJetsToLNu_madgraphMLM_mt.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("/data/jbrandstetter/CMGTools/syncro/BASIS_ntuple_synchro_SUSYGluGlu_miniAOD2_mt.root");
+         f = new TFile("/data/jbrandstetter/CMGTools/rootFiles_160107/BASIS_ntuple_synchro_MC_WJetsToLNu_madgraphMLM_mt.root");
       }
       f->GetObject("TauCheck",tree);
 
@@ -371,6 +346,13 @@ void ntuple::Init(TTree *tree)
    // Init() will be called many times when running on PROOF
    // (once per file to be processed).
 
+   // Set object pointer
+   addmuon_pt = 0;
+   addmuon_eta = 0;
+   addmuon_phi = 0;
+   addmuon_m = 0;
+   addmuon_q = 0;
+   addmuon_iso = 0;
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
@@ -445,34 +427,21 @@ void ntuple::Init(TTree *tree)
    fChain->SetBranchAddress("lep_etacentrality", &lep_etacentrality, &b_lep_etacentrality);
    fChain->SetBranchAddress("sphericity", &sphericity, &b_sphericity);
    fChain->SetBranchAddress("nadditional", &nadditional, &b_nadditional);
-   fChain->SetBranchAddress("addmuon_pt_1", &addmuon_pt_1, &b_addmuon_pt_1);
-   fChain->SetBranchAddress("addmuon_eta_1", &addmuon_eta_1, &b_addmuon_eta_1);
-   fChain->SetBranchAddress("addmuon_phi_1", &addmuon_phi_1, &b_addmuon_phi_1);
-   fChain->SetBranchAddress("addmuon_m_1", &addmuon_m_1, &b_addmuon_m_1);
-   fChain->SetBranchAddress("addmuon_q_1", &addmuon_q_1, &b_addmuon_q_1);
-   fChain->SetBranchAddress("addmuon_iso_1", &addmuon_iso_1, &b_addmuon_iso_1);
-   fChain->SetBranchAddress("addmuon_pt_2", &addmuon_pt_2, &b_addmuon_pt_2);
-   fChain->SetBranchAddress("addmuon_eta_2", &addmuon_eta_2, &b_addmuon_eta_2);
-   fChain->SetBranchAddress("addmuon_phi_2", &addmuon_phi_2, &b_addmuon_phi_2);
-   fChain->SetBranchAddress("addmuon_m_2", &addmuon_m_2, &b_addmuon_m_2);
-   fChain->SetBranchAddress("addmuon_q_2", &addmuon_q_2, &b_addmuon_q_2);
-   fChain->SetBranchAddress("addmuon_iso_2", &addmuon_iso_2, &b_addmuon_iso_2);
-   fChain->SetBranchAddress("addmuon_pt_3", &addmuon_pt_3, &b_addmuon_pt_3);
-   fChain->SetBranchAddress("addmuon_eta_3", &addmuon_eta_3, &b_addmuon_eta_3);
-   fChain->SetBranchAddress("addmuon_phi_3", &addmuon_phi_3, &b_addmuon_phi_3);
-   fChain->SetBranchAddress("addmuon_m_3", &addmuon_m_3, &b_addmuon_m_3);
-   fChain->SetBranchAddress("addmuon_q_3", &addmuon_q_3, &b_addmuon_q_3);
-   fChain->SetBranchAddress("addmuon_iso_3", &addmuon_iso_3, &b_addmuon_iso_3);
-   fChain->SetBranchAddress("addmuon_pt_4", &addmuon_pt_4, &b_addmuon_pt_4);
-   fChain->SetBranchAddress("addmuon_eta_4", &addmuon_eta_4, &b_addmuon_eta_4);
-   fChain->SetBranchAddress("addmuon_phi_4", &addmuon_phi_4, &b_addmuon_phi_4);
-   fChain->SetBranchAddress("addmuon_m_4", &addmuon_m_4, &b_addmuon_m_4);
-   fChain->SetBranchAddress("addmuon_q_4", &addmuon_q_4, &b_addmuon_q_4);
-   fChain->SetBranchAddress("addmuon_iso_4", &addmuon_iso_4, &b_addmuon_iso_4);
+   fChain->SetBranchAddress("addmuon_pt", &addmuon_pt, &b_addmuon_pt);
+   fChain->SetBranchAddress("addmuon_eta", &addmuon_eta, &b_addmuon_eta);
+   fChain->SetBranchAddress("addmuon_phi", &addmuon_phi, &b_addmuon_phi);
+   fChain->SetBranchAddress("addmuon_m", &addmuon_m, &b_addmuon_m);
+   fChain->SetBranchAddress("addmuon_q", &addmuon_q, &b_addmuon_q);
+   fChain->SetBranchAddress("addmuon_iso", &addmuon_iso, &b_addmuon_iso);
    fChain->SetBranchAddress("passesIsoCuts", &passesIsoCuts, &b_passesIsoCuts);
    fChain->SetBranchAddress("passesLepIsoCuts", &passesLepIsoCuts, &b_passesLepIsoCuts);
    fChain->SetBranchAddress("passesTauLepVetos", &passesTauLepVetos, &b_passesTauLepVetos);
    fChain->SetBranchAddress("passesThirdLepVeto", &passesThirdLepVeto, &b_passesThirdLepVeto);
+   fChain->SetBranchAddress("passesDiMuonVeto", &passesDiMuonVeto, &b_passesDiMuonVeto);
+   fChain->SetBranchAddress("passesDiElectronVeto", &passesDiElectronVeto, &b_passesDiElectronVeto);
+   fChain->SetBranchAddress("dilepton_veto", &dilepton_veto, &b_dilepton_veto);
+   fChain->SetBranchAddress("extraelec_veto", &extraelec_veto, &b_extraelec_veto);
+   fChain->SetBranchAddress("extramuon_veto", &extramuon_veto, &b_extramuon_veto);
    fChain->SetBranchAddress("met", &met, &b_met);
    fChain->SetBranchAddress("metphi", &metphi, &b_metphi);
    fChain->SetBranchAddress("mvamet", &mvamet, &b_mvamet);

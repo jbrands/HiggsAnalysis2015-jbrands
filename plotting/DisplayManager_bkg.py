@@ -59,7 +59,7 @@ class DisplayManager(object):
         self.name = name
         self.draw_ratio = ratio
         self.histos = []
-        self.Legend = ROOT.TLegend(0.65, 0.65, 0.95, 0.89)
+        self.Legend = ROOT.TLegend(0.75, 0.60, 0.95, 0.89)
         applyLegendSettings(self.Legend)
 
         self.draw_ratioLegend = ROOT.TLegend(0.15, 0.79, 0.4, 0.89)
@@ -100,7 +100,10 @@ class DisplayManager(object):
         latex.SetTextSize(0.05)
         latex.SetTextAlign(11)
         latex.DrawLatex(0.14,0.94,"#font[22]{CMS}"+" #font[12]{Preliminary}")
-        latex.DrawLatex(0.68,0.94,"#bf{L=1.47 fb^{-1} (13 TeV)}")
+        latex.DrawLatex(0.68,0.94,"#bf{L=2.23 fb^{-1} (13 TeV)}")
+        #latex.DrawLatex(0.18,0.86,"#font[22]{#mu#tau_{h}}")
+        latex.DrawLatex(0.18,0.86,"#font[22]{e#tau_{h}}")
+        
 
         pull_histos = []
 

@@ -24,6 +24,7 @@ TNtupleAnalyzer::TNtupleAnalyzer()
 
 TNtupleAnalyzer::~TNtupleAnalyzer()
 {
+  delete fout_ntuple;
   delete NtupleView;
   cout<<"----------------------------------------"<<endl;
   cout<<"       TNtupleAnalyzer finished          "<<endl;
@@ -48,8 +49,8 @@ void TNtupleAnalyzer::loadFile(TString filename)
 void TNtupleAnalyzer::run(int i){
 
    //Define histograms here
-  initHistos(i);
-  initHistos_syncBase();
+  initHistos();
+
 
   //Commence loop over tree
   Int_t nentries = Int_t(NtupleView->fChain->GetEntries());
@@ -58,23 +59,23 @@ void TNtupleAnalyzer::run(int i){
   //if(evaluateMVA){
     TMVA::Tools::Instance();
     TMVA::Reader *reader = new TMVA::Reader( "!Color:!Silent" );
+    reader->AddVariable("svfit_mass",&m_sv);
     reader->AddVariable("dr_leptau",&dr_leptau);
     reader->AddVariable("jdeta",&jdeta);
     //reader->AddVariable("jeta1eta2",&jeta1eta2);                                                                                                                                                        
     reader->AddVariable("mvapt_VBF",&mvapt_tt);
     reader->AddVariable("met_centrality",&met_centrality);
     reader->AddVariable("mvamt_1",&mvamt_1);
-    //reader->AddVariable("mjj",&mjj);                                                                                                                                                                    
+    
     reader->AddVariable("lep_etacentrality",&lep_etacentrality);
     reader->AddVariable("mvapt_sum_VBF",&mvapt_sum_VBF);                                                                                                                                                
-    //reader->AddVariable("sphericity",&sphericity);                                                                                                                                                      
-    reader->AddVariable("m_vis",&m_vis);
+    //reader->AddVariable("sphericity",&sphericity);                                                                                                                        
     reader->AddSpectator("weight*splitFactor",&weight);
-    reader->BookMVA("BDTG method","/data/jbrandstetter/CMGTools/rootFiles_151211/additionalSelection/outFiles_151214/BDTweights/TMVAClassification_BDTG.weights.xml");
+    reader->BookMVA("BDTG method",weightFile.c_str());
     //}
 
-  //for (Int_t jentry=0; jentry<10000;jentry++) {
-  for (Int_t jentry=0; jentry<nentries;jentry++) {
+    //for (Int_t jentry=0; jentry<10000;jentry++) {
+    for (Int_t jentry=0; jentry<nentries;jentry++) {
     //if(jentry % 100000 == 0) cout << jentry << "/" << nentries << endl;
     if(jentry % 1000 == 0) cout << jentry << "/" << nentries << endl;
     
@@ -119,6 +120,7 @@ void TNtupleAnalyzer::run(int i){
    
     pt_tt = NtupleView->pt_tt;
     m_vis = NtupleView->m_vis;
+    m_sv = NtupleView->m_sv;
     mvapt_tt = NtupleView->mvapt_tt;
     pt_sum = NtupleView->pt_sum;
     pt_VBF = NtupleView->pt_VBF;
@@ -172,68 +174,60 @@ void TNtupleAnalyzer::run(int i){
       jphi_2 = -99;
       jrawf_2 = -99;
     }
-    
 
     passesTauLepVetos = NtupleView->passesTauLepVetos;
     passesThirdLepVeto = NtupleView->passesThirdLepVeto;
     byMediumCombinedIsolationDeltaBetaCorr3Hits_2 = NtupleView->byMediumCombinedIsolationDeltaBetaCorr3Hits_2;
-    addmuon_pt_1 = NtupleView->addmuon_pt_1;
-    passesIsoCuts = NtupleView->passesIsoCuts;
+    passesDiMuonVeto = NtupleView->passesDiMuonVeto;
+    passesDiElectronVeto = NtupleView->passesDiElectronVeto;
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     if(!NtupleView->passesTauLepVetos) continue;
     if(NtupleView->iso_1 > 0.1) continue;
     if(NtupleView->byMediumCombinedIsolationDeltaBetaCorr3Hits_2 < 0.5) continue;
     if(!NtupleView->passesThirdLepVeto) continue;
-    if(NtupleView->addmuon_pt_1 > 15) continue;
-    if(!NtupleView->passesIsoCuts) continue;
+    if(channel=="mt"){
+      if(!NtupleView->passesDiMuonVeto) continue;
+    }
+    if(channel=="et"){
+      if(!NtupleView->passesDiElectronVeto) continue;
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////
-    if(i!=basis_invertedOSCut){
-      if( (sample.find("QCD") != string::npos) && (sample.find("datadriven") != string::npos) ){
-	if(q_1*q_2 <= 0) continue;
-	weight = weight*1.06;
-	if(mvamt_1<20) weight = weight*0.79;
-	if(mvamt_1>20 && mvamt_1<30) weight = weight*0.78;
-	if(mvamt_1>30 && mvamt_1<40) weight = weight*0.65;
-	if(mvamt_1>40 && mvamt_1<50) weight = weight*0.34;
-	if(mvamt_1>50 && mvamt_1<60) weight = weight*0.17;
-	if(mvamt_1>60 && mvamt_1<70) weight = weight*0.15;
-	if(mvamt_1>70 && mvamt_1<80) weight = weight*0.15;
-	
-	if(mvamt_1>80) weight = weight*0.1;
 
-      }
-      else{
-	if(q_1*q_2 >= 0) continue;
-      }
-    }
-    else if(i==basis_invertedOSCut){
-      if(q_1*q_2 <= 0) continue;
-    }
+    if(i==incl_notwoprong_VBF && njets_Vienna < 2) continue;
+    if(i==incl_notwoprong_VBF && nbtag_Vienna !=0) continue;
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+
+    h_mvamt_1->Fill(NtupleView->mvamt_1,weight);
+    h_mvamt_2->Fill(NtupleView->mvamt_2,weight);
+
+    if(i!=incl && NtupleView->mvamt_1 > 40) continue;
+    if(i!=incl && NtupleView->decayMode_2 >= 5 && NtupleView->decayMode_2 < 10) continue;
     
-    //////////////////////////////////////////////////////////////////////////////////////////////
 
-    if( (sample.find("WJets") != string::npos) ){
-      weight = weight*1.07;
-    }
-    
-    //////////////////////////////////////////////////////////////////////////////////////////////
-
-    if(i==basis_mT70Cut && mvamt_1 < 70) continue;
-    if(i!=basis_VBF_nomTCut && i!=basis_nomTCut && i!=basis_mT70Cut && NtupleView->mvamt_1 > 40) continue;
-    if(i==basis_VBF_nomTCut && (njets_Vienna < 2 || nbtag_Vienna !=0) ) continue;
-
-    if(i==basis_VBF && njets_Vienna < 2) continue;
-    if(i==basis_VBF && nbtag_Vienna !=0) continue;
-    if(i==basis_mT70Cut && njets_Vienna < 2) continue;
-    if(i==basis_mT70Cut && nbtag_Vienna !=0) continue;
+    h_mvapt_tt->Fill(NtupleView->mvapt_tt,weight);
+    h_mvapt_sum->Fill(NtupleView->mvapt_sum,weight);
+    h_mvapt_VBF->Fill(NtupleView->mvapt_VBF,weight);
+    h_mvapt_sum_VBF->Fill(NtupleView->mvapt_sum_VBF,weight);
+    h_dr_leptau->Fill(NtupleView->dr_leptau,weight);
+    h_jeta1eta2->Fill(NtupleView->jeta1eta2,weight);
+    h_met_centrality->Fill(NtupleView->met_centrality,weight);
+    h_lep_etacentrality->Fill(NtupleView->lep_etacentrality,weight);
+    h_sphericity->Fill(NtupleView->sphericity,weight);
+    h_m_sv->Fill(NtupleView->m_sv,weight);
+    h_mjj->Fill(NtupleView->mjj,weight);
+    h_jdeta->Fill(NtupleView->jdeta,weight);
+    h_m_vis->Fill(NtupleView->m_vis,weight);
 
 
-    if(evaluateMVA){
+
+    if(i==incl_notwoprong_VBF && evaluateMVA){
       if( (sample.find("MC") != string::npos) ) weight = weight*2;
       BDTscore = reader->EvaluateMVA("BDTG method");
-      if( (sample.find("SingleMuon") != string::npos) && BDTscore >= 0.8 ) BDTscore = -99; 
+      if( (sample.find("MC") == string::npos) && BDTscore >= 0.8 ) BDTscore = -99; 
+      h_BDTscore->Fill(BDTscore,weight);
     }
     
         //fillTree();
@@ -243,7 +237,7 @@ void TNtupleAnalyzer::run(int i){
   }// End loop over entries
 
   cout << "Writing to histogram..." << endl;
-  writeHistos();
+  writeHistos(i);
 
       
 } // end run

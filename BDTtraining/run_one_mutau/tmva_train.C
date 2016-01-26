@@ -20,7 +20,7 @@
 #include "TMVA/Types.h"
 #endif
 
-void tmva_train( const int NVAR, const std::string varnames[], const TString varshort[], const TString varunit[], const char vartype[], TString usevar="111111111111", TString bookstr="", const TString mvatype="bdt", float ptrain=0.5 )
+void tmva_train( const std::string sample[], const std::string direc, const std::string channel, const int NVAR, const std::string varnames[], const TString varshort[], const TString varunit[], const char vartype[], TString usevar="111111111111", TString bookstr="", const TString mvatype="bdt", float ptrain=0.5 )
 {
 
    if (bookstr=="") bookstr="!H:!V:BoostType=Grad:Shrinkage=0.05:UseBaggedBoost:BaggedSampleFraction=0.75:nCuts=20:MaxDepth=3:MinNodeSize=1.2%:NTrees=500";
@@ -31,7 +31,6 @@ void tmva_train( const int NVAR, const std::string varnames[], const TString var
        if ( varnames[ivar].compare("svfit_mass") == 0 ) usevar[ivar]='0'; //skip svfit mass for cut-based
    }
    
-
    std::cout << std::endl;
    std::cout << "==> Start TMVA Training with variables " << usevar << " and str " << bookstr << std::endl;
    // --------------------------------------------------------------------------------------------------
@@ -77,41 +76,27 @@ void tmva_train( const int NVAR, const std::string varnames[], const TString var
    //   std::vector<double> weight;
    
    //const TString dir="../files_14_04_02/TrainingAndTestTrees/";
-   const TString dir="/data/jbrandstetter/CMGTools/rootFiles_151211/additionalSelection/outFiles_151214/BDTinput/";
+   const TString indir=direc+"BDTinput/";
+   //int sample_size = sizeof(sample)/sizeof(sample[0]);
+   int sample_size = 4;
    /*
    fname.push_back(dir+"sig_tot_MVA.root"); signal.push_back(1);
    fname.push_back(dir+"bg_tot_MVA.root"); signal.push_back(0);
    */
    TString type="train";
-   TString input[4];
-   input[0]=dir; input[0]+="sig1_"; input[0]+=type; input[0]+=".root";
-   input[1]=dir; input[1]+="bg1_";  input[1]+=type; input[1]+=".root";
-   input[2]=dir; input[2]+="bg2_";  input[2]+=type; input[2]+=".root";
-   //input[3]=dir; input[3]+="bg4_loose_"; input[3]+=type; input[3]+=".root";
-   input[3]=dir; input[3]+="bg3_tight_"; input[3]+=type; input[3]+=".root";
-   //input[3]=dir; input[3]+="bg4_small_loose_train";  input[3]+=".root"; 
-   //   input[3]=dir; input[3]+="bg3_train";  input[3]+=ptrain; input[3]+=".root";
+   TString input[sample_size];
+   
+   for(int i=0;i<sample_size;i++){
+     input[i]=indir+"Ntuple_"+sample[i]+"_"+channel+"_"+type+".root";
+     fname.push_back(input[i]);
+   }
 
-   fname.push_back(input[0]); signal.push_back(1);
-   fname.push_back(input[1]); signal.push_back(0);
-   fname.push_back(input[2]); signal.push_back(0);
-   fname.push_back(input[3]); signal.push_back(0);
+   signal.push_back(1);
+   signal.push_back(0);
+   signal.push_back(0);
+   signal.push_back(0);
 
 
-   /*                                                                     
-   const TString dir="./files_26_02/";                                                                    
-   fname.push_back(dir+"sig_mu_tot.root"); signal.push_back(1);                                          
-   fname.push_back(dir+"bg_mu_tot.root"); signal.push_back(0);                                       
-   */
-
-   /*
-   fname.push_back(dir+"train_mvain_musync_vfbhiggs_0.root"); signal.push_back(1);
-   fname.push_back(dir+"train_mvain_mu_sync_ggfhiggs_0.root"); signal.push_back(1); //empty
-   fname.push_back(dir+"train_mvain_mu_sync_dy1j_0.root"); signal.push_back(0);
-   fname.push_back(dir+"train_mvain_mu_sync_dy2j_0.root"); signal.push_back(0);
-   fname.push_back(dir+"train_mvain_mu_sync_dy3j_0.root"); signal.push_back(0);
-   fname.push_back(dir+"train_mvain_mu_sync_dy4j_0.root"); signal.push_back(0);
-   */
    int sigentries=0;
    int bgentries=0;
    float p_use=1;

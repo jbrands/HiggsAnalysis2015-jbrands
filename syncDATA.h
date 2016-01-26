@@ -11,18 +11,6 @@
 
 using namespace std;
 
-bool isZtt = false;
-bool isZmt = false;
-bool isZet = false;
-bool isZee = false;
-bool isZmm = false;
-bool isZem = false;
-bool isZEE = false;
-bool isZMM = false;
-bool isZLL = false;
-int isFake = 0;
-int NUP = 0;
-
 float gen_match_1;
 float gen_match_2;
 
@@ -53,34 +41,32 @@ float mt_2;
 float iso_2;
 
 //////////////////////////////////////////////////////////////////
-float nadditional;
-float addmuon_pt_1;
-float addmuon_eta_1;
-float addmuon_phi_1;
-float addmuon_m_1;
-float addmuon_q_1;
-float addmuon_iso_1;
-
-float addmuon_pt_2;
-float addmuon_eta_2;
-float addmuon_phi_2;
-float addmuon_m_2;
-float addmuon_q_2;
-float addmuon_iso_2;
-
-float addmuon_pt_3;
-float addmuon_eta_3;
-float addmuon_phi_3;
-float addmuon_m_3;
-float addmuon_q_3;
-float addmuon_iso_3;
-
-float addmuon_pt_4;
-float addmuon_eta_4;
-float addmuon_phi_4;
-float addmuon_m_4;
-float addmuon_q_4;
-float addmuon_iso_4;
+float nadditionalMu;
+vector<double> addmuon_pt;
+vector<double> addmuon_eta;
+vector<double> addmuon_phi;
+vector<double> addmuon_m;
+vector<double> addmuon_q;
+vector<double> addmuon_iso;
+vector<double> addmuon_gen_match;
+//////////////////////////////////////////////////////////////////
+float nadditionalTau;
+vector<double> addtau_pt;
+vector<double> addtau_eta;
+vector<double> addtau_phi;
+vector<double> addtau_m;
+vector<double> addtau_q;
+vector<double> addtau_byCombinedIsolationDeltaBetaCorrRaw3Hits;
+vector<double> addtau_byMediumCombinedIsolationDeltaBetaCorr3Hits;
+vector<double> addtau_byTightCombinedIsolationDeltaBetaCorr3Hits;
+vector<double> addtau_byLooseCombinedIsolationDeltaBetaCorr3Hits;
+vector<double> addtau_passesTauLepVetos;
+vector<double> addtau_decayMode;
+vector<double> addtau_d0;
+vector<double> addtau_dZ;
+vector<double> addtau_gen_match;
+vector<double> addtau_mvamt;
+vector<double> addtau_mvis;
 //////////////////////////////////////////////////////////////////
 float njets_Vienna;
 float nbtag_Vienna;
@@ -106,6 +92,12 @@ bool passesIsoCuts = false;
 bool passesLepIsoCuts = false;
 bool passesTauLepVetos = false;
 bool passesThirdLepVeto = false;
+bool passesDiMuonVeto = false;
+bool passesDiElectronVeto = false;
+
+bool dilepton_veto = false;
+bool extramuon_veto = false;
+bool extraelec_veto = false;
 
 float againstElectronLooseMVA5_2;
 float againstElectronMediumMVA5_2;
@@ -188,47 +180,46 @@ class syncDATA
   //virtual ~syncDATA();
   
   void clearObjects();
-  void getGeneratorVariables(int decay);
   int getBaselineSelection(string sample);
   int passesIsoCuts(RecObj lep, RecObj tau);
   int passesLepIsoCuts(RecObj lep);
   int passesTauLepVetos(RecObj tau);
   int passesThirdLepVeto(RecObj lep, string decayMode);
-  int getPostBaselineCuts();
   void fillMuons(int i, Int_t jentry);
   void fillTaus(int i, Int_t jentry);
   void fillElectrons(int i, Int_t jentry);
   int getDileptons(double tauEta, double tauPhi, double lepEta, double lepPhi);
+  int getDileptons_addTaus(double tauEta, double tauPhi, double lepEta, double lepPhi);
   void fillMVAMET(int dilepton);
   void fillPFMET();
   void fillJets(int i, Int_t jentry);
   void fillJetsVienna(int i, Int_t jentry);
   double calculate_mt(RecObj lep, RecObj met);
-  int selectPair_tauMu(vector<RecObj> v_tau, vector<RecObj> v_mu);
   int selectPair_tauMu_SingleTrigger(vector<RecObj> v_tau, vector<RecObj> v_mu, string sample);
   int selectPair_tauEle_SingleTrigger(vector<RecObj> v_tau, vector<RecObj> v_ele, string sample);
-  int matchDiObjectTrigger(RecObj tau, RecObj lep, double triggerEtas[], double triggerPhis[], int arraySize);
-  int matchSingleObjectTrigger(RecObj lep, double triggerEtas[], double triggerPhis[], int arraySize);
   int matchSingleMuonTrigger(RecObj lep, double triggerPts[], double triggerEtas[], double triggerPhis[], int arraySize);
   int matchSingleElectronTrigger(RecObj lep, double triggerPts[], double triggerEtas[], double triggerPhis[], int arraySize);
   int isGoodMuon(int i);
   int isGoodTau(int i);
   int isGoodElectron(int i);
-  void getWeight();
   void getPileUp();
   void getLeg1Variables();
   void getLeg2Variables();
-  void getAdditionalMuons(RecObj lep);
+  void getAdditionalMuons(RecObj lep, string sample);
+  void getAdditionalTaus(RecObj tau, string sample);
+  int getPassesDiMuonVeto();
+  int getPassesDiElectronVeto();
   void calculate_diTau();
   void getMETvariables(int dilepton);
   void getSVFITvariables(int dilepton);
-  void getGenMatch(RecObj lep, RecObj tau);
+  int getGenMatch(RecObj selObj);
   void calculate_VBFsystem();
   void calculate_VBFsystem_Vienna();
   void getJets();
-  void fillTree();
+
 
   int whichDilepton;
+  int whichDilepton_addTaus;
   vector<RecObj> v_mu;
   vector<RecObj> v_mu_add;
   vector<RecObj> v_mu_veto;
@@ -278,106 +269,40 @@ void syncDATA::clearObjects(){
 }
 
 
-void syncDATA::getGeneratorVariables(int decay){
-  /*int counter_Ze = 0;
-  int counter_Zmu = 0;
-  int counter_Ztau = 0;
-  int counter_ZE = 0;
-  int counter_ZMU = 0;
-  int particleId;
-
-  isZtt = false;
-  isZmt = false;
-  isZet = false;
-  isZmm = false;
-  isZee = false;
-  isZem = false;
-  isZMM = false;
-  isZEE = false;
-  isZLL = false;
-
-  if(decay==Higgs) particleId = 25;
-  else particleId = 23;
-  for (int i=0; i<NtupleView->ngenHS; i++){
-    if( abs(NtupleView->genHS_pdgId[i]) == 15 && NtupleView->genHS_motherId[i] == particleId) counter_Ztau++;
-    if( abs(NtupleView->genHS_pdgId[i]) == 13 && abs(NtupleView->genHS_motherId[i]) == 15 && NtupleView->genHS_grandmotherId[i] == \
-	particleId) counter_Zmu++;
-    if( abs(NtupleView->genHS_pdgId[i]) == 11 && abs(NtupleView->genHS_motherId[i]) == 15 && NtupleView->genHS_grandmotherId[i] == \
-	particleId) counter_Ze++;
-    if( abs(NtupleView->genHS_pdgId[i]) == 13 && NtupleView->genHS_motherId[i] == particleId) counter_ZMU++;
-    if( abs(NtupleView->genHS_pdgId[i]) == 13 && NtupleView->genHS_motherId[i] == particleId) counter_ZE++;
-  }
-
-  if(counter_Ztau==2 && counter_Zmu==0 && counter_Ze==0) isZtt = true;
-  else if(counter_Ztau==2 && counter_Zmu==1 && counter_Ze==0) isZmt = true;
-  else if(counter_Ztau==2 && counter_Zmu==0 && counter_Ze==1) isZet = true;
-  else if(counter_Ztau==2 && counter_Zmu==2 && counter_Ze==0) isZmm = true;
-  else if(counter_Ztau==2 && counter_Zmu==0 && counter_Ze==2) isZee = true;
-  else if(counter_Ztau==2 && counter_Zmu==1 && counter_Ze==1) isZem = true;
-  else if(counter_Ztau==0 && counter_ZMU==2){ isZMM = true; isZLL = true; }
-  else if(counter_Ztau==0 && counter_ZE==2){ isZEE = true; isZLL = true; }
-  else{
-    cout << "Error determining generator variables!" << endl;
-    }*/
-
-}
-
-void syncDATA::getGenMatch(RecObj lep, RecObj tau){
-
-  gen_match_1 = -1;
-  gen_match_2 = -1;
+int syncDATA::getGenMatch(RecObj selObj){
   
-  float dRLep1 = 1.;
-  float dRLep2 = 1.;
-  float dRLep3 = 1.;
-  float dRLep4 = 1.;
-  float dRLep5 = 1.;
-  float dRTau1 = 1.;
-  float dRTau2 = 1.;
-  float dRTau3 = 1.;
-  float dRTau4 = 1.;
-  float dRTau5 = 1.;
-
+  float dR1 = 1.;
+  float dR2 = 1.;
+  float dR3 = 1.;
+  float dR4 = 1.;
+  float dR5 = 1.;
+ 
   for(int i=0; i<NtupleView->ngen; i++){
     if( NtupleView->gen_pt[i] < 8 || fabs(NtupleView->gen_pdgId[i]) != 11 ) continue;
-    float dRLepTmp = calcDR( NtupleView->gen_eta[i],NtupleView->gen_phi[i],lep.Eta(),lep.Phi() );
-    float dRTauTmp = calcDR( NtupleView->gen_eta[i],NtupleView->gen_phi[i],tau.Eta(),tau.Phi() );
-    if( dRLepTmp < dRLep1 && NtupleView->gen_isPrompt[i]){
-      dRLep1 = dRLepTmp;
+    float dRTmp = calcDR( NtupleView->gen_eta[i],NtupleView->gen_phi[i],selObj.Eta(),selObj.Phi() );
+    if( dRTmp < dR1 && NtupleView->gen_isPrompt[i]){
+      dR1 = dRTmp;
     }
-    if( dRLepTmp < dRLep3 && NtupleView->gen_isDirectPromptTauDecayProduct[i]){
-      dRLep3 = dRLepTmp;
-    }
-    if( dRTauTmp < dRTau1 && NtupleView->gen_isPrompt[i]){
-      dRTau1 = dRTauTmp;
-    }
-    if( dRTauTmp < dRTau3 && NtupleView->gen_isDirectPromptTauDecayProduct[i]){
-      dRTau3 = dRTauTmp;
+    if( dRTmp < dR3 && NtupleView->gen_isDirectPromptTauDecayProduct[i]){
+      dR3 = dRTmp;
     }
   }
 
   for(int i=0; i<NtupleView->ngen; i++){
     if( NtupleView->gen_pt[i] < 8 || fabs(NtupleView->gen_pdgId[i]) != 13 ) continue;
-    float dRLepTmp = calcDR( NtupleView->gen_eta[i],NtupleView->gen_phi[i],lep.Eta(),lep.Phi() );
-    float dRTauTmp = calcDR( NtupleView->gen_eta[i],NtupleView->gen_phi[i],tau.Eta(),tau.Phi() );
-    if( dRLepTmp < dRLep2 && NtupleView->gen_isPromptFinalState[i]){
-      dRLep2 = dRLepTmp;
+    float dRTmp = calcDR( NtupleView->gen_eta[i],NtupleView->gen_phi[i],selObj.Eta(),selObj.Phi() );
+    if( dRTmp < dR2 && NtupleView->gen_isPrompt[i]){
+      dR2 = dRTmp;
     }
-    if( dRLepTmp < dRLep4 && NtupleView->gen_isDirectPromptTauDecayProduct[i]){
-      dRLep4 = dRLepTmp;
-    }
-    if( dRTauTmp < dRTau2 && NtupleView->gen_isPromptFinalState[i]){
-      dRTau2 = dRTauTmp;
-    }
-    if( dRTauTmp < dRTau4 && NtupleView->gen_isDirectPromptTauDecayProduct[i]){
-      dRTau4= dRTauTmp;
+    if( dRTmp < dR4 && NtupleView->gen_isDirectPromptTauDecayProduct[i]){
+      dR4 = dRTmp;
     }
   }
 
   vector<RecObj> matchingObject;
 
   for(int j=0; j<NtupleView->ngenSum; j++){
-    if( fabs(NtupleView->genSum_pdgId[j]) == 15 ){
+    if( fabs(NtupleView->genSum_pdgId[j]) == 15 && NtupleView->genSum_isPrompt[j] ){
       int which_neutrino = -1;
       int nr_neutrinos = 0;
       bool vetoLep = false;
@@ -388,7 +313,7 @@ void syncDATA::getGenMatch(RecObj lep, RecObj tau){
 	  nr_neutrinos++;
 	}
       }
-      if(which_neutrino >= 0 && vetoLep==false && nr_neutrinos == 1){
+      if(which_neutrino >= 0 && vetoLep==false && nr_neutrinos == 1 ){
 	TLorentzVector neutrino;
 	neutrino.SetPtEtaPhiM(NtupleView->genSum_pt[which_neutrino], NtupleView->genSum_eta[which_neutrino], NtupleView->genSum_phi[which_neutrino], NtupleView->genSum_mass[which_neutrino]);
 	TLorentzVector tau;
@@ -402,59 +327,36 @@ void syncDATA::getGenMatch(RecObj lep, RecObj tau){
 
   for(unsigned int k=0; k<matchingObject.size(); k++){
     if(matchingObject.at(k).Pt() < 15) continue;
-    float dRTauTmp = calcDR( tau.Eta(), tau.Phi(), matchingObject.at(k).Eta(), matchingObject.at(k).Phi() );
-    float dRLepTmp = calcDR( lep.Eta(), lep.Phi(), matchingObject.at(k).Eta(), matchingObject.at(k).Phi() );
-    if( dRLepTmp < dRLep5 ){
-      dRLep5 = dRLepTmp;
+    float dRTmp = calcDR( selObj.Eta(), selObj.Phi(), matchingObject.at(k).Eta(), matchingObject.at(k).Phi() );
+    if( dRTmp < dR5 ){
+      dR5 = dRTmp;
     }
-
-    if( dRTauTmp < dRTau5 ){
-      dRTau5 = dRTauTmp;
-    }
-    
   }
 
-  float leptons[5] = {dRLep1, dRLep2, dRLep3, dRLep4, dRLep5};
-  float taus[5] = {dRTau1, dRTau2, dRTau3, dRTau4, dRTau5};
-  int whichLep = 1;
-  int whichTau = 1;
+  float matchings[5] = {dR1, dR2, dR3, dR4, dR5};
+  int whichObj = 1;
   
-  float smallestLep = leptons[0];
+  float smallestObj = matchings[0];
   for(int i=1; i<5; i++){
-    if(leptons[i] < smallestLep){
-      smallestLep = leptons[i];
-      whichLep = i+1;
+    if(matchings[i] < smallestObj){
+      smallestObj = matchings[i];
+      whichObj = i+1;
     }
   }
-
-  float smallestTau = taus[0];
-  for(int i=1; i<5; i++){
-    if(taus[i] < smallestTau){
-      smallestTau = taus[i];
-      whichTau = i+1;
-    }
-  }
-  //cout << dRTau1 << " " << dRTau2 << " " << dRTau3 << " " << dRTau4 << " " << dRTau5 << " " << smallestTau << " " << whichTau << endl;
   
-  if(whichLep==1 && smallestLep < 0.2) gen_match_1 = 1;
-  else if(whichLep==2 && smallestLep < 0.2) gen_match_1 = 2;
-  else if(whichLep==3 && smallestLep < 0.2) gen_match_1 = 3;
-  else if(whichLep==4 && smallestLep < 0.2) gen_match_1 = 4;
-  else if(whichLep==5 && smallestLep < 0.2) gen_match_1 = 5;
-  else gen_match_1 = 6;
+  if(whichObj==1 && smallestObj < 0.2) return 1;
+  else if(whichObj==2 && smallestObj < 0.2) return 2;
+  else if(whichObj==3 && smallestObj < 0.2) return 3;
+  else if(whichObj==4 && smallestObj < 0.2) return 4;
+  else if(whichObj==5 && smallestObj < 0.2) return 5;
+  else return 6;
 
-  if(whichTau==1 && smallestTau < 0.2) gen_match_2 = 1;
-  else if(whichTau==2 && smallestTau < 0.2) gen_match_2 = 2;
-  else if(whichTau==3 && smallestTau < 0.2) gen_match_2 = 3;
-  else if(whichTau==4 && smallestTau < 0.2) gen_match_2 = 4;
-  else if(whichTau==5 && smallestTau < 0.2) gen_match_2 = 5;
-  else gen_match_2 = 6;
+}
 
-} 
 
 int syncDATA::passesIsoCuts(RecObj lep, RecObj tau){
   if(lep.iso() > 0.1) return 0;
-  if(tau.iso() > 0.1) return 0;
+  if( !NtupleView->tau_byMediumCombinedIsolationDeltaBetaCorr3Hits[tau.number()] ) return 0;
   return 1;
 }
 
@@ -475,8 +377,99 @@ int syncDATA::passesTauLepVetos(RecObj tau){
   return 1;
 }
 
+int syncDATA::getPassesDiMuonVeto(){
+  vector<RecObj> v_mu_pos;
+  vector<RecObj> v_mu_neg;
+
+  for(int i=0;i<NtupleView->nmu;i++){
+    if( NtupleView->mu_pt[i]<15. ) continue;
+    if( fabs(NtupleView->mu_eta[i])>=2.4 ) continue;
+    if( fabs(NtupleView->mu_dxy[i])>=0.045 ) continue;
+    if( fabs(NtupleView->mu_dz[i])>=0.2 ) continue;
+    if( !NtupleView->mu_globalMuon[i] ) continue;
+    if( !NtupleView->mu_isTrackerMuon[i] ) continue;
+    if( !NtupleView->mu_isPFMuon[i] ) continue;
+    double isoMu;
+    double isoMu_tmp;
+    isoMu_tmp = NtupleView->mu_neutralHadrIsoR03[i] + NtupleView->mu_photonIsoR03[i] - 0.5 * NtupleView->mu_puChargedHadronIsoR03[i];
+    if(isoMu_tmp > 0) isoMu = (NtupleView->mu_chargedHadrIsoR03[i] + isoMu_tmp)/NtupleView->mu_pt[i];
+    else isoMu = NtupleView->mu_chargedHadrIsoR03[i]/NtupleView->mu_pt[i];
+    if(isoMu >= 0.3) continue;
+
+    if(NtupleView->mu_charge[i]>0){
+      RecObj *tmp = new RecObj(NtupleView->mu_pt[i], NtupleView->mu_eta[i], NtupleView->mu_phi[i], NtupleView->mu_mass[i], i, 1, isoMu, 1,NtupleView->mu_charge[i]);
+      v_mu_pos.push_back(*tmp);
+      delete tmp;
+    }
+    else if(NtupleView->mu_charge[i]<0){
+      RecObj *tmp = new RecObj(NtupleView->mu_pt[i], NtupleView->mu_eta[i], NtupleView->mu_phi[i], NtupleView->mu_mass[i], i, 1, isoMu, 1,NtupleView->mu_charge[i]);
+      v_mu_neg.push_back(*tmp);
+      delete tmp;
+    }
+    else continue;
+  }
+
+  int counterDiMu=0;
+  for(unsigned int i=0; i<v_mu_pos.size(); i++){
+    for(unsigned int j=0; j<v_mu_neg.size(); j++){
+      if( !isOverlap(&v_mu_pos.at(i), &v_mu_neg.at(j), 0.15) ) counterDiMu++;
+    }
+  }
+
+  if(counterDiMu>0) return 0;
+  return 1;
+}
+
+
+int syncDATA::getPassesDiElectronVeto(){
+  vector<RecObj> v_ele_pos;
+  vector<RecObj> v_ele_neg;
+
+  for(int i=0;i<NtupleView->nel;i++){
+    if( NtupleView->el_pt[i]<15. ) continue;
+    if( fabs(NtupleView->el_eta[i])>2.5 ) continue;
+    if( fabs(NtupleView->el_dxy[i])>0.045 ) continue;
+    if( fabs(NtupleView->el_dz[i])>0.2 ) continue;
+    if( !NtupleView->el_POG_PHYS14_25ns_v2_ConvVeto_Veto[i] ) continue;
+    
+    double isoEl;
+    double isoEl_tmp;
+    isoEl_tmp = NtupleView->el_neutralHadrIsoR03[i] + NtupleView->el_photonIsoR03[i] - 0.5 * NtupleView->el_puChargedHadronIsoR03[i];
+    if(isoEl_tmp > 0) isoEl = (NtupleView->el_chargedHadrIsoR03[i] + isoEl_tmp)/NtupleView->el_pt[i];
+    else isoEl = NtupleView->el_chargedHadrIsoR03[i]/NtupleView->el_pt[i];
+    if(isoEl > 0.3) continue;
+
+    if(NtupleView->el_charge[i]>0){
+      RecObj *tmp = new RecObj(NtupleView->el_pt[i], NtupleView->el_eta[i], NtupleView->el_phi[i], NtupleView->el_mass[i], i, 1, isoEl, 1,NtupleView->el_charge[i]);
+      v_ele_pos.push_back(*tmp);
+      delete tmp;
+    }
+    else if(NtupleView->el_charge[i]<0){
+      RecObj *tmp = new RecObj(NtupleView->el_pt[i], NtupleView->el_eta[i], NtupleView->el_phi[i], NtupleView->el_mass[i], i, 1, isoEl, 1,NtupleView->el_charge[i]);
+      v_ele_neg.push_back(*tmp);
+      delete tmp;
+    }
+    else continue;
+    
+  }
+
+  int counterDiEle=0;
+  for(unsigned int i=0; i<v_ele_pos.size(); i++){
+    for(unsigned int j=0; j<v_ele_neg.size(); j++){
+      if( !isOverlap(&v_ele_pos.at(i), &v_ele_neg.at(j), 0.15) && s_lep.iso()<0.3 ) counterDiEle++;
+    }
+  }
+
+  if(counterDiEle>0) return 0;
+  return 1;
+
+}
+
+
 int syncDATA::passesThirdLepVeto(RecObj lep, string decayMode){
   /////electron////////////////
+  extraelec_veto = false;
+  extramuon_veto = false;
   bool electron2 = true;
   int counterMu = 0;
   int counterEle = 0;
@@ -485,10 +478,12 @@ int syncDATA::passesThirdLepVeto(RecObj lep, string decayMode){
       if( i == lep.number() ) electron2 = false;
     }
     if( NtupleView->el_pt[i]<10. ) electron2 = false;
-    if( NtupleView->el_eta[i]>2.5 ) electron2 = false;
-    if( NtupleView->el_dxy[i]>0.045 ) electron2 = false;
-    if( NtupleView->el_dz[i]>0.2 ) electron2 = false;
-    if( NtupleView->el_eleMVAId[i]<3 ) electron2 = false;
+    if( fabs(NtupleView->el_eta[i])>2.5 ) electron2 = false;
+    if( fabs(NtupleView->el_dxy[i])>0.045 ) electron2 = false;
+    if( fabs(NtupleView->el_dz[i])>0.2 ) electron2 = false;
+    if( fabs(NtupleView->el_superClusterEta[i])<0.8 && NtupleView->el_mvaIdSpring15NonTrig[i] < 0.9132863 ) electron2 = false;
+    else if( fabs(NtupleView->el_superClusterEta[i])>0.8 && fabs(NtupleView->el_superClusterEta[i])<1.479 && NtupleView->el_mvaIdSpring15NonTrig[i] < 0.805013 ) electron2 = false;
+    else if( fabs(NtupleView->el_superClusterEta[i])>1.479 && NtupleView->el_mvaIdSpring15NonTrig[i] < 0.358969 ) electron2 = false;
     if( NtupleView->el_corrGsfTrack[i]==0 ) electron2 = false;
     if( NtupleView->el_passConversionVeto[i]==0 ) electron2 = false;
     double isoEl;
@@ -497,12 +492,13 @@ int syncDATA::passesThirdLepVeto(RecObj lep, string decayMode){
     if(isoEl_tmp > 0) isoEl = (NtupleView->el_chargedHadrIsoR03[i] + isoEl_tmp)/NtupleView->el_pt[i];
     else isoEl = NtupleView->el_chargedHadrIsoR03[i]/NtupleView->el_pt[i];
     if(isoEl > 0.3) electron2 = false;
-    
+
     if(electron2){
       counterEle++;
+      extraelec_veto = true;
     }
     electron2 = true;
-    
+    //if(s_lep.iso()>0.3)extraelec_veto = false;
   }
   /////muon////////////////////
   bool muon2 = true;
@@ -511,6 +507,7 @@ int syncDATA::passesThirdLepVeto(RecObj lep, string decayMode){
       if( i == lep.number() ) muon2 = false;
     }
     if( NtupleView->mu_pt[i]<10. ) muon2 = false;
+    if( fabs(NtupleView->mu_eta[i])>2.4 ) muon2 = false;
     if( !NtupleView->mu_mediumMuonId[i] ) muon2 = false;
     if( fabs(NtupleView->mu_dxy[i])>0.045 ) muon2 = false;
     if( fabs(NtupleView->mu_dz[i])>0.2 ) muon2 = false;
@@ -523,6 +520,7 @@ int syncDATA::passesThirdLepVeto(RecObj lep, string decayMode){
 
     if(muon2){
       counterMu++;
+      extramuon_veto = true;
     }
     muon2 = true;
     
@@ -531,6 +529,8 @@ int syncDATA::passesThirdLepVeto(RecObj lep, string decayMode){
   if(counterEle>0 || counterMu>0) return 0;
   return 1;
 } 
+
+
 
 void syncDATA::getLeg1Variables(){
   if(decayMode=="mt"){
@@ -567,7 +567,6 @@ void syncDATA::getLeg2Variables(){
   q_2 = NtupleView->tau_charge[s_tau.number()];
   d0_2 = NtupleView->tau_packedLeadTauCanddXY[s_tau.number()];
   dZ_2 = NtupleView->tau_packedLeadTauCanddZ[s_tau.number()];
-  //dZ_2 = NtupleView->tau_packedLeadTauCanddZ[s_tau.number()];
   mt_2 = this->calculate_mt(s_tau, s_PFmet);
   mvamt_2 = this->calculate_mt(s_tau, s_MVAmet);
   iso_2 = s_tau.iso();
@@ -608,16 +607,33 @@ int syncDATA::getBaselineSelection(string sample){
 
   if(decayMode=="mt"){
     if( !selectPair_tauMu_SingleTrigger(v_tau,  v_mu, sample) ) return 0;
-    getAdditionalMuons(s_lep);
+    getAdditionalMuons(s_lep, sample);
+    passesDiMuonVeto = true;
+    dilepton_veto = false;
+    if( !getPassesDiMuonVeto() ){
+      passesDiMuonVeto = false;
+      dilepton_veto = true;
+    }
   }
 
   else if(decayMode=="et"){
     if( !selectPair_tauEle_SingleTrigger(v_tau, v_el, sample) ) return 0;
+    passesDiElectronVeto = true;
+    dilepton_veto = false;
+    if( !getPassesDiElectronVeto() ){
+      passesDiElectronVeto = false;
+      dilepton_veto = true;
+    }
+    
   }
+
   else{
     cout << "No correct decay mode" << endl;
     return 0;
   }
+  
+  getAdditionalTaus(s_tau, sample);
+
   for(int i=0;i<NtupleView->njet;i++){
     this->fillJets(i, jentry);
   }
@@ -632,9 +648,9 @@ int syncDATA::getBaselineSelection(string sample){
   return 1;
 } 
 
-void syncDATA::getAdditionalMuons(RecObj lep){
+void syncDATA::getAdditionalMuons(RecObj lep, string sample){
 
-  for(int i=0;i<NtupleView->nmu;i++){
+  for(int i=0; i<NtupleView->nmu; i++){
     if( i == lep.number() ) continue;
     if( NtupleView->mu_pt[i]<10. ) continue;
     if( !NtupleView->mu_mediumMuonId[i] ) continue;
@@ -652,87 +668,83 @@ void syncDATA::getAdditionalMuons(RecObj lep){
     delete tmp;
   }
 
-  nadditional = v_mu_add.size();
-  if( v_mu_add.size()>0 ){
-    addmuon_pt_1 = v_mu_add.at(0).Pt();
-    addmuon_eta_1 = v_mu_add.at(0).Eta();
-    addmuon_phi_1 = v_mu_add.at(0).Phi();
-    addmuon_m_1 = v_mu_add.at(0).M();
-    addmuon_q_1 = NtupleView->mu_charge[v_mu_add.at(0).number()];
-    addmuon_iso_1 = v_mu_add.at(0).iso();
-  }
-  else{
-    addmuon_pt_1 = -99;
-    addmuon_eta_1 = -99;
-    addmuon_phi_1 = -99;
-    addmuon_m_1 = -99;
-    addmuon_q_1 = -99;
-    addmuon_iso_1 = -99;
-  }
+  nadditionalMu = v_mu_add.size();
+  addmuon_pt.clear();
+  addmuon_eta.clear();
+  addmuon_phi.clear();
+  addmuon_m.clear();
+  addmuon_q.clear();
+  addmuon_iso.clear();
+  addmuon_gen_match.clear();
+  for(unsigned int i=0; i<v_mu_add.size(); i++){
+    addmuon_pt.push_back(v_mu_add.at(i).Pt());
+    addmuon_eta.push_back(v_mu_add.at(i).Eta());
+    addmuon_phi.push_back(v_mu_add.at(i).Phi());
+    addmuon_m.push_back(v_mu_add.at(i).M());
+    addmuon_q.push_back(v_mu_add.at(i).charge());
+    addmuon_iso.push_back(v_mu_add.at(i).iso());
+    if( (sample.find("MC") != string::npos) || (sample.find("SUSY") != string::npos) ){
+      addmuon_gen_match.push_back( getGenMatch( v_mu_add.at(i) ) );
+    }
+    else{
+      addmuon_gen_match.push_back(0.);
+    }
+  }  
 
-  if( v_mu_add.size()>1 ){
-    addmuon_pt_2 = v_mu_add.at(1).Pt();
-    addmuon_eta_2 = v_mu_add.at(1).Eta();
-    addmuon_phi_2 = v_mu_add.at(1).Phi();
-    addmuon_m_2 = v_mu_add.at(1).M();
-    addmuon_q_2 = NtupleView->mu_charge[v_mu_add.at(1).number()];
-    addmuon_iso_2 = v_mu_add.at(1).iso();
-  }
-  else{
-    addmuon_pt_2 = -99;
-    addmuon_eta_2 = -99;
-    addmuon_phi_2 = -99;
-    addmuon_m_2 = -99;
-    addmuon_q_2 = -99;
-    addmuon_iso_2 = -99;
-  }
-  if( v_mu_add.size()>2 ){
-    addmuon_pt_3 = v_mu_add.at(2).Pt();
-    addmuon_eta_3 = v_mu_add.at(2).Eta();
-    addmuon_phi_3 = v_mu_add.at(2).Phi();
-    addmuon_m_3 = v_mu_add.at(2).M();
-    addmuon_q_3 = NtupleView->mu_charge[v_mu_add.at(2).number()];
-    addmuon_iso_3 = v_mu_add.at(2).iso();
-  }
-  else{
-    addmuon_pt_3 = -99;
-    addmuon_eta_3 = -99;
-    addmuon_phi_3 = -99;
-    addmuon_m_3 = -99;
-    addmuon_q_3 = -99;
-    addmuon_iso_3 = -99;
-  }
-  if( v_mu_add.size()>3 ){
-    addmuon_pt_4 = v_mu_add.at(3).Pt();
-    addmuon_eta_4 = v_mu_add.at(3).Eta();
-    addmuon_phi_4 = v_mu_add.at(3).Phi();
-    addmuon_m_4 = v_mu_add.at(3).M();
-    addmuon_q_4 = NtupleView->mu_charge[v_mu_add.at(3).number()];
-    addmuon_iso_4 = v_mu_add.at(3).iso();
-  }
-  else{
-    addmuon_pt_4 = -99;
-    addmuon_eta_4 = -99;
-    addmuon_phi_4 = -99;
-    addmuon_m_4 = -99;
-    addmuon_q_4 = -99;
-    addmuon_iso_4 = -99;
-  }
+}
+
+void syncDATA::getAdditionalTaus(RecObj tau, string sample){
   
-
+  nadditionalTau = v_tau.size()-1;
+  addtau_pt.clear();
+  addtau_eta.clear();
+  addtau_phi.clear();
+  addtau_m.clear();
+  addtau_q.clear();
+  addtau_byCombinedIsolationDeltaBetaCorrRaw3Hits.clear();
+  addtau_byMediumCombinedIsolationDeltaBetaCorr3Hits.clear();
+  addtau_byTightCombinedIsolationDeltaBetaCorr3Hits.clear();
+  addtau_byLooseCombinedIsolationDeltaBetaCorr3Hits.clear();
+  addtau_passesTauLepVetos.clear();
+  addtau_decayMode.clear();
+  addtau_d0.clear();
+  addtau_dZ.clear();
+  addtau_gen_match.clear();
+  addtau_mvamt.clear();
+  addtau_mvis.clear();
+  for(unsigned int i=0; i<v_tau.size(); i++){
+    if( v_tau.at(i).number() == tau.number() ) continue;
+    addtau_pt.push_back( NtupleView->tau_pt[v_tau.at(i).number()] );
+    addtau_eta.push_back( NtupleView->tau_eta[v_tau.at(i).number()] );
+    addtau_phi.push_back( NtupleView->tau_phi[v_tau.at(i).number()] );
+    addtau_m.push_back( NtupleView->tau_mass[v_tau.at(i).number()] );
+    addtau_q.push_back( NtupleView->tau_charge[v_tau.at(i).number()] );
+    addtau_byCombinedIsolationDeltaBetaCorrRaw3Hits.push_back( NtupleView->tau_byCombinedIsolationDeltaBetaCorrRaw3Hits[v_tau.at(i).number()] );
+    addtau_byMediumCombinedIsolationDeltaBetaCorr3Hits.push_back( NtupleView->tau_byMediumCombinedIsolationDeltaBetaCorr3Hits[v_tau.at(i).number()] );
+    addtau_byTightCombinedIsolationDeltaBetaCorr3Hits.push_back( NtupleView->tau_byTightCombinedIsolationDeltaBetaCorr3Hits[v_tau.at(i).number()] );
+    addtau_byLooseCombinedIsolationDeltaBetaCorr3Hits.push_back( NtupleView->tau_byLooseCombinedIsolationDeltaBetaCorr3Hits[v_tau.at(i).number()] );
+    addtau_passesTauLepVetos.push_back(passesTauLepVetos( v_tau.at(i) ) );
+    addtau_decayMode.push_back( NtupleView->tau_decayMode[v_tau.at(i).number()] );
+    addtau_d0.push_back( NtupleView->tau_packedLeadTauCanddXY[v_tau.at(i).number()] );
+    addtau_dZ.push_back( NtupleView->tau_packedLeadTauCanddZ[v_tau.at(i).number()] );
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    whichDilepton_addTaus = -99;
+    if( getDileptons_addTaus( NtupleView->tau_eta[v_tau.at(i).number()], NtupleView->tau_phi[v_tau.at(i).number()], s_lep.Eta(), s_lep.Phi() ) ){
+      addtau_mvamt.push_back(  sqrt( 2*NtupleView->tau_pt[v_tau.at(i).number()]*NtupleView->dilepton_met_pt[whichDilepton_addTaus]*(1-TMath::Cos( NtupleView->tau_phi[v_tau.at(i).number()]-NtupleView->dilepton_met_phi[whichDilepton_addTaus])) ) );
+    }
+    else addtau_mvamt.push_back(-99);
+    RecObj tmp= RecObj(NtupleView->tau_pt[v_tau.at(i).number()], NtupleView->tau_eta[v_tau.at(i).number()], NtupleView->tau_phi[v_tau.at(i).number()], NtupleView->tau_mass[v_tau.at(i).number()], i, 1, NtupleView->tau_byCombinedIsolationDeltaBetaCorrRaw3Hits[v_tau.at(i).number()], jentry, NtupleView->tau_charge[v_tau.at(i).number()]);
+    addtau_mvis.push_back( (tmp+s_lep).M() );
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    if( (sample.find("MC") != string::npos) || (sample.find("SUSY") != string::npos) ){
+      addtau_gen_match.push_back( getGenMatch( v_tau.at(i) ) );
+    }
+    else{
+      addtau_gen_match.push_back(0.);
+    }
+  }
 }
 
-int syncDATA::getPostBaselineCuts(){
-  if( s_lep.iso() > 0.1 ) return 0;
-  if( NtupleView->tau_againstElectronTightMVA5[s_tau.number()] < 0.5 ) return 0;
-  if( NtupleView->tau_againstMuonLoose3[s_tau.number()] < 0.5 ) return 0;
-
-  return 1;
-}
-
-void syncDATA::getWeight(){
-
-}
 
 void syncDATA::getPileUp(){
   npu = NtupleView->nTrueInt;
@@ -758,11 +770,7 @@ int syncDATA::isGoodMuon(int i){
 
   if( NtupleView->mu_pt[i]<19. ) return 0;
   if( fabs(NtupleView->mu_eta[i])>2.1 ) return 0;
-  if( !NtupleView->mu_mediumMuonId[i] ) return 0;
-  //if( NtupleView->mu_looseId[i]!=1 ) return 0;
-  //if( NtupleView->mu_validFraction[i] < 0.8 ) return 0;
-  //if( !(NtupleView->mu_globalMuon[i] && NtupleView->mu_normChi2Track[i] < 3 && NtupleView->mu_trackPosMatch[i] < 12 && NtupleView->mu_kickFinder[i] < 20 && NtupleView->mu_segmentComp[i] > 0.303 ) && NtupleView->mu_segmentComp[i] < 0.451 ) return 0;
-      
+  if( !NtupleView->mu_mediumMuonId[i] ) return 0;      
   if( fabs(NtupleView->mu_dxy[i])>0.045 ) return 0;
   if( fabs(NtupleView->mu_dz[i])>0.2 ) return 0;
 
@@ -789,7 +797,6 @@ int syncDATA::isGoodElectron(int i){
   if( fabs(NtupleView->el_eta[i])>2.1 ) return 0;
   if( fabs(NtupleView->el_dxy[i])>0.045 ) return 0;
   if( fabs(NtupleView->el_dz[i])>0.2 ) return 0;
-  //if( !NtupleView->el_mvaIdSpring15NonTrig_Tight[i] ) return 0;
   if( fabs(NtupleView->el_superClusterEta[i])<0.8 && NtupleView->el_mvaIdSpring15NonTrig[i] < 0.967083 ) return 0;
   if( fabs(NtupleView->el_superClusterEta[i])>0.8 && fabs(NtupleView->el_superClusterEta[i])<1.479 && NtupleView->el_mvaIdSpring15NonTrig[i] < 0.929117 ) return 0;
   if( fabs(NtupleView->el_superClusterEta[i])>1.479 && NtupleView->el_mvaIdSpring15NonTrig[i] < 0.726311 ) return 0;
@@ -802,8 +809,7 @@ int syncDATA::isGoodElectron(int i){
 void syncDATA::fillTaus(int i, Int_t jentry){
   //RecObj *tmp;
   if( isGoodTau(i) ){
-    RecObj *tmp= new RecObj(NtupleView->tau_pt[i], NtupleView->tau_eta[i], NtupleView->tau_phi[i], NtupleView->tau_mass[i], i, 1, NtupleView->tau_byCombinedIsolationDeltaBetaCorrRaw3Hits[i] /*NtupleView->tau_chargedIsoPtSum*/, jentry, NtupleView->tau_charge[i]);
-    //if ( !isOverlap(tmp, v_mu, 0.5) ) v_tau.push_back(*tmp);
+    RecObj *tmp= new RecObj(NtupleView->tau_pt[i], NtupleView->tau_eta[i], NtupleView->tau_phi[i], NtupleView->tau_mass[i], i, 1, NtupleView->tau_byCombinedIsolationDeltaBetaCorrRaw3Hits[i], jentry, NtupleView->tau_charge[i]);
     v_tau.push_back(*tmp);
     delete tmp;
   }
@@ -814,7 +820,6 @@ int syncDATA::isGoodTau(int i){
   if( NtupleView->tau_pt[i]<20. ) return 0;
   if( fabs(NtupleView->tau_eta[i])>2.3 ) return 0;
   if( fabs(NtupleView->tau_packedLeadTauCanddZ[i])>0.2 ) return 0;
-  //if( fabs(NtupleView->tau_dz[i])>0.2 ) return 0;
   if( NtupleView->tau_idDecayModeNewDMs[i] < 0.5 ) return 0;
   if( abs(NtupleView->tau_charge[i]) != 1 ) return 0;
   
@@ -881,9 +886,6 @@ int syncDATA::selectPair_tauMu_SingleTrigger(vector<RecObj> v_tau, vector<RecObj
   return 1;
 }
 
-int syncDATA::selectPair_tauMu(vector<RecObj> v_tau, vector<RecObj> v_mu){
-  return 1;
-}
 
 int syncDATA::selectPair_tauEle_SingleTrigger(vector<RecObj> v_tau, vector<RecObj> v_ele, string sample){
   int match = 0;
@@ -897,7 +899,7 @@ int syncDATA::selectPair_tauEle_SingleTrigger(vector<RecObj> v_tau, vector<RecOb
     for(unsigned int i=0; i<v_tau.size(); i++){
       for(unsigned int j=0; j<v_ele.size(); j++){
 	if( !isOverlap(&v_tau.at(i), &v_ele.at(j), 0.5) ){
-	  if( ( ( (sample.find("MC") != string::npos) || (sample.find("SUSY") != string::npos) ) && ( this->matchSingleElectronTrigger(v_ele.at(j), NtupleView->triggerObject_Ele22_pt, NtupleView->triggerObject_Ele22_eta, NtupleView->triggerObject_Ele22_phi, NtupleView->ntriggerObject_Ele22 ) ) ) ){// || this->matchSingleElectronTrigger(v_ele.at(j), NtupleView->triggerObject_Ele22_pt, NtupleView->triggerObject_Ele22_eta, NtupleView->triggerObject_Ele22_phi, NtupleView->ntriggerObject_Ele22 )) {
+	  if( ( ( (sample.find("MC") != string::npos) || (sample.find("SUSY") != string::npos) ) && ( this->matchSingleElectronTrigger(v_ele.at(j), NtupleView->triggerObject_Ele22_pt, NtupleView->triggerObject_Ele22_eta, NtupleView->triggerObject_Ele22_phi, NtupleView->ntriggerObject_Ele22 ) ) ) || this->matchSingleElectronTrigger(v_ele.at(j), NtupleView->triggerObject_Ele23_pt, NtupleView->triggerObject_Ele23_eta, NtupleView->triggerObject_Ele23_phi, NtupleView->ntriggerObject_Ele23 )) {
 	    if(v_ele.at(j).iso() < iso_lep){
 		s_tau = v_tau.at(i);
                 s_lep = v_ele.at(j);
@@ -932,7 +934,6 @@ int syncDATA::selectPair_tauEle_SingleTrigger(vector<RecObj> v_tau, vector<RecOb
                 match = 1;
                 counter++;
 	      }
-	    //}
 	  }
 	}
       }
@@ -941,22 +942,6 @@ int syncDATA::selectPair_tauEle_SingleTrigger(vector<RecObj> v_tau, vector<RecOb
   }
   
   if(match == 0) return 0;
-
-  return 1;
-}
-
-
-int syncDATA::matchDiObjectTrigger(RecObj tau, RecObj lep, double triggerEtas[], double triggerPhis[], int arraySize){
-  int matchLep = 0;
-  int matchTau = 0;
-  for(int i=0; i<arraySize; i++){
-    if( calcDR(triggerEtas[i], triggerPhis[i], lep.Eta(), lep.Phi() ) < 0.5 ) matchLep = 1; 
-  }
-  for(int i=0; i<arraySize; i++){
-    if( calcDR(triggerEtas[i], triggerPhis[i], tau.Eta(), tau.Phi() ) < 0.5 ) matchTau = 1;
-  }
-  
-  if(!matchLep || !matchTau) return 0;
 
   return 1;
 }
@@ -975,16 +960,6 @@ int syncDATA::matchSingleElectronTrigger(RecObj lep, double triggerPts[], double
   int matchLep = 0;
   for(int i=0; i<arraySize; i++){
     if( calcDR(triggerEtas[i], triggerPhis[i], lep.Eta(), lep.Phi() ) < 0.5 && triggerPts[i] > 23) matchLep = 1;
-  }
-  if(!matchLep) return 0;
-
-  return 1;
-}
-
-int syncDATA::matchSingleObjectTrigger(RecObj lep, double triggerEtas[], double triggerPhis[], int arraySize){
-  int matchLep = 0;
-  for(int i=0; i<arraySize; i++){
-    if( calcDR(triggerEtas[i], triggerPhis[i], lep.Eta(), lep.Phi() ) < 0.5 ) matchLep = 1;
   }
   if(!matchLep) return 0;
 
@@ -1014,6 +989,30 @@ int syncDATA::getDileptons(double tauEta, double tauPhi, double lepEta, double l
   return 1;
 }
 
+int syncDATA::getDileptons_addTaus(double tauEta, double tauPhi, double lepEta, double lepPhi){
+
+  int counterDilepton=0;
+  for(int i=0; i<NtupleView->ndilepton; i++){
+    float dRLep = calcDR(lepEta, lepPhi, NtupleView->dilepton_l1_eta[i], NtupleView->dilepton_l1_phi[i]);
+    float dRTau = calcDR(tauEta, tauPhi, NtupleView->dilepton_l2_eta[i], NtupleView->dilepton_l2_phi[i]);
+
+    if( dRLep < 0.0002 && dRTau < 0.0002 ){
+      whichDilepton_addTaus = i;
+      counterDilepton++;
+    }
+  }
+
+  if(counterDilepton==0){
+    cout << "Error, no matching dilepton for additional tau" << endl;
+  }
+  if(counterDilepton>1){
+    cout << "Error, too many matching dileptons for additional tau" << endl;
+  }
+  if(counterDilepton != 1) return 0;
+  return 1;
+
+}
+
 void syncDATA::fillMVAMET( int dilepton ){
   if(dilepton >= 0) s_MVAmet.SetPtEtaPhiM(NtupleView->dilepton_met_pt[dilepton], 0., NtupleView->dilepton_met_phi[dilepton], 0.);
   else s_MVAmet.SetPtEtaPhiM(0., 0., 0., 0.);
@@ -1023,14 +1022,14 @@ void syncDATA::fillPFMET(){
 }
 
 void syncDATA::fillJets(int i, Int_t jentry){
-  if(NtupleView->jet_pt[i] > 20 && fabs(NtupleView->jet_eta[i]) < 4.7 && NtupleView->jet_id[i] >=1 /*&& NtupleView->jet_btagCSV[i]<=0.814*/){
+  if(NtupleView->jet_pt[i] > 20 && fabs(NtupleView->jet_eta[i]) < 4.7 && NtupleView->jet_id[i] >=1 ){
     RecObj *tmp = new RecObj(NtupleView->jet_pt[i], NtupleView->jet_eta[i], NtupleView->jet_phi[i], NtupleView->jet_mass[i], i, 1, -1, jentry, 0);
     if( calcDR(tmp->Eta(), tmp->Phi(), s_tau.Eta(), s_tau.Phi() )>0.5 && calcDR(tmp->Eta(), tmp->Phi(), s_lep.Eta(), s_lep.Phi() )>0.5){
       v_jet.push_back(*tmp);
     }
     delete tmp;
   }
-  if(NtupleView->jet_pt[i] > 20 && fabs(NtupleView->jet_eta[i]) < 2.4 /*&& NtupleView->jet_id[i] ==1*/ && NtupleView->jet_btagCSV[i]>0.89){
+  if(NtupleView->jet_pt[i] > 20 && fabs(NtupleView->jet_eta[i]) < 2.4 && NtupleView->jet_btagCSV[i]>0.89){
     RecObj *tmp = new RecObj(NtupleView->jet_pt[i], NtupleView->jet_eta[i], NtupleView->jet_phi[i], NtupleView->jet_mass[i], i, 1, -1, jentry, 0);
     if( calcDR(tmp->Eta(), tmp->Phi(), s_tau.Eta(), s_tau.Phi() )>0.5 && calcDR(tmp->Eta(), tmp->Phi(), s_lep.Eta(), s_lep.Phi() )>0.5 ){
       v_bjet.push_back(*tmp);
@@ -1040,7 +1039,7 @@ void syncDATA::fillJets(int i, Int_t jentry){
 }
 
 void syncDATA::fillJetsVienna(int i, Int_t jentry){
-  if(NtupleView->jet_pt[i] > 25 && fabs(NtupleView->jet_eta[i]) < 4.7 && NtupleView->jet_id[i] >=1 /*&& NtupleView->jet_btagCSV[i]<=0.89*/){
+  if(NtupleView->jet_pt[i] > 25 && fabs(NtupleView->jet_eta[i]) < 4.7 && NtupleView->jet_id[i] >=1 ){
     RecObj *tmp = new RecObj(NtupleView->jet_pt[i], NtupleView->jet_eta[i], NtupleView->jet_phi[i], NtupleView->jet_mass[i], i, 1, -1, jentry, 0);
     if( calcDR(tmp->Eta(), tmp->Phi(), s_tau.Eta(), s_tau.Phi() )>0.5 && calcDR(tmp->Eta(), tmp->Phi(), s_lep.Eta(), s_lep.Phi() )>0.5){
       v_jet_Vienna.push_back(*tmp);
@@ -1115,20 +1114,9 @@ void syncDATA::getMETvariables(int dilepton){
 }
 
 void syncDATA::getSVFITvariables(int dilepton){
-  //cout << "dilepton: " << dilepton << endl;
   if(dilepton >=0 ){
     m_sv = NtupleView->dilepton_svfitMass[dilepton];
     pt_sv = NtupleView->dilepton_svfitPt[dilepton];
-    /*if(m_sv<0){
-      cout << dilepton << endl;
-      cout << NtupleView->tau_againstElectronVLooseMVA5[s_tau.number()] << endl;
-      cout << NtupleView->tau_againstMuonTight3[s_tau.number()] << endl;
-      cout << s_lep.iso() << endl;
-      for(int i=0; i<NtupleView->ndilepton; i++){
-	cout << NtupleView->dilepton_svfitMass[i] << endl;
-      }
-      cout << endl;
-      }*/
   }
   else{
     m_sv = -99;

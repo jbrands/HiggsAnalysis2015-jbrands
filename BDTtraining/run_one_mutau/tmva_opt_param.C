@@ -93,10 +93,14 @@ TGraphAsymmErrors* tmva_opt_param( TString bookstr_scan="", TString unit="", flo
 	}*/
 
       // if (!sigonly){
-      tmva_train(NVAR, varnames, varshort, varunit, vartype, usevar, bookstr, mvatype, ptrain);
-      tmva_test(NVAR, varnames, usevar, 1, fhisto_name, mvatype, ptrain); //testing
+      const std::string channel = "mt";
+      const std::string sample[4]={"MC_VBFHiggs","MC_DYJetsToLL_madgraphMLM","MC_TTbar_powheg","MC_WJetsToLNu_madgraphMLM"};
+      const std::string direc="/data/jbrandstetter/CMGTools/rootFiles_160114/";
+
+      tmva_train(sample, direc, channel, NVAR, varnames, varshort, varunit, vartype, usevar, bookstr, mvatype, ptrain);
+      tmva_test(sample, direc, channel, NVAR, varnames, usevar, 1, fhisto_name, mvatype, ptrain); //testing
       std::cout << "Training set (overtraining check): " << std::endl;
-      tmva_test(NVAR, varnames, usevar, 0, fhisto_train_name, mvatype, ptrain); //training, to check overtraining                                       
+      tmva_test(sample, direc, channel, NVAR, varnames, usevar, 0, fhisto_train_name, mvatype, ptrain); //training, to check overtraining                                       
     } else { std::cout << "WARNING: Using old training! -- tmva_opt_param_svfitmass_nold.C" << std::endl; }
     
    

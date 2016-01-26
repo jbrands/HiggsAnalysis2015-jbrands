@@ -35,6 +35,7 @@ float iso_2;
 
 float pt_tt;
 float m_vis;
+float m_sv;
 float mvapt_tt;
 float pt_sum;
 float pt_VBF;
@@ -77,6 +78,7 @@ bool passesTauLepVetos;
 bool passesThirdLepVeto;
 bool passesIsoCuts;
 float byMediumCombinedIsolationDeltaBetaCorr3Hits_2;
-float addmuon_pt_1;
+bool passesDiMuonVeto;
+bool passesDiElectronVeto;
 
 float BDTscore;

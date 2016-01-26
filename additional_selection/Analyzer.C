@@ -32,60 +32,13 @@ void Analyzer() {
 
   TNtupleAnalyzer *Analyzer = new TNtupleAnalyzer;
   declarer = Analyzer;
+  if(evaluateMVA && sample.find("MC")!=string::npos) loadFile((inDir+"BDTinput/Ntuple_"+sample+"_"+channel+"_test.root").c_str());
+  else loadFile((inDir+"BASIS_ntuple_synchro_"+sample+"_"+channel+".root").c_str());
 
-  if(sample=="MC_DYJetsToLL_madgraphMLM" && channel=="mt"){
-    if(!evaluateMVA){
-      loadFile("/data/jbrandstetter/CMGTools/rootFiles_151211/BASIS_ntuple_synchro_MC_DYJetsToLL_madgraphMLM_mt.root");
-    }
-    else if(evaluateMVA){
-      loadFile("/data/jbrandstetter/CMGTools/rootFiles_151211/additionalSelection/outFiles_151214/BDTinput/bg1_test.root");
-    }
-  }
-  else if(sample=="MC_DYJetsToLL_madgraphMLM_old" && channel=="mt"){
-    /*if(!evaluateMVA){
-      loadFile("/data/jbrandstetter/CMGTools/rootFiles_151211/BASIS_ntuple_synchro_MC_DYJetsToLL_madgraphMLM_old_mt.root");
-    }
-    else if(evaluateMVA){
-      loadFile("/data/jbrandstetter/CMGTools/rootFiles_151211/additionalSelection/outFiles_151214/BDTinput/bg1_test.root");
-      }*/
-    cout << "Is this really interesting any more?" << endl;
-  }
-  else if(sample=="MC_WJetsToLNu_madgraphMLM" && channel=="mt"){
-    if(!evaluateMVA){
-      loadFile("/data/jbrandstetter/CMGTools/rootFiles_151211/BASIS_ntuple_synchro_MC_WJetsToLNu_madgraphMLM_mt.root");
-    }
-    else if(evaluateMVA){
-      loadFile("/data/jbrandstetter/CMGTools/rootFiles_151211/additionalSelection/outFiles_151214/BDTinput/bg3_tight_test.root");
-    }
-  }
-  else if(sample=="MC_TTbar_powheg" && channel=="mt"){
-    if(!evaluateMVA){
-      loadFile("/data/jbrandstetter/CMGTools/rootFiles_151211/BASIS_ntuple_synchro_MC_TTbar_powheg_mt.root");
-    }
-    else if(evaluateMVA){
-      loadFile("/data/jbrandstetter/CMGTools/rootFiles_151211/additionalSelection/outFiles_151214/BDTinput/bg2_test.root");
-    }
-  }
-  else if(sample=="MC_VBFHiggs" && channel=="mt"){
-    if(!evaluateMVA){
-      loadFile("/data/jbrandstetter/CMGTools/rootFiles_151211/BASIS_ntuple_synchro_MC_VBFHiggs_mt.root");
-    }
-    else if(evaluateMVA){
-      loadFile("/data/jbrandstetter/CMGTools/rootFiles_151211/additionalSelection/outFiles_151214/BDTinput/sig1_test.root");
-      //loadFile("/data/jbrandstetter/CMGTools/rootFiles_151211/additionalSelection/outFiles_151214/Ntuple_basis_VBF_MC_VBFHiggs_mt.root");
-    }
-  }
-  else if(sample=="SingleMuon_Run2015D" || sample == "QCD_datadriven"){
-    loadFile("/data/jbrandstetter/CMGTools/rootFiles_151211/BASIS_ntuple_synchro_Run2015D_PromptReco_v4_mt.root");
-  }
-  else{
-  cerr << "No input file!" << endl;
-    exit(0);
-  }
 
-  for(int i=2; i<3; i++){
-    run(i);
-  }
+  run();
+
+  quit();
     
 }
 
@@ -109,7 +62,7 @@ void loadFile(TString fname="Ntuple*root"){
   Analyzer->loadFile(fname); fileloaded++;
 }
 
-void run(int i){
+void run(){
 
   TNtupleAnalyzer *Analyzer = declarer;
   
@@ -118,9 +71,12 @@ void run(int i){
     continue;
   }
 
-  cout<<"Running over events..."<<endl;
-  Analyzer->run(i);
-  cout<<"Done running over events."<<endl;
+  for(int i=scenario_begin; i<=scenario_end; i++){
+    cout<<"Running over events..."<<endl;
+    Analyzer->run(i);
+    cout<<"Done running over events."<<endl;
+  }
+
 }
 
 void quit() {

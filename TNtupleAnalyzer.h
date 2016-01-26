@@ -21,44 +21,41 @@ int loop = 1;
 ///////////////////////////////////////////////////////////////////////////////////////
 int whichDecay = Higgs;
 string channel = "mt";
-int isSync = 1;
-
-//string sample = "test_SUSYGluGlu";
-//string sample = "MC_WJets_test";
-//string sample = "MC_TTbar_test";
-//string sample = "MC_DYJets_test";
-string sample = "SUSYGluGlu_miniAOD2";
+int isSync = 0;
+///////////////////////////////////////////////////////////////////////////////////////
+//!!!!!!!!!!!!!!!MC sample have to contain MC in string, SUSY sample have to contain SUSY in string!!!!!!!!!!!!!!!!!!!!!
+//string sample = "SUSYGluGlu_miniAOD2";
 //string sample = "MC_QCD_Pt15TTo7000_TuneZ2starFlat";
 //string sample = "MC_WJetsToLNu_madgraphMLM";
 //string sample = "MC_DYJetsToLL_madgraphMLM";
-//string sample = "MC_DYJetsToLL_madgraphMLM_old";
 //string sample = "MC_TTbar_powheg";
+string sample = "MC_QCD_Pt20toInf";
 //string sample = "MC_VBFHiggs";
-//string sample = "DATA_SingleMuon_Run2015B"; 
-//string sample = "DATA_SingleMuon_Run2015C"; 
 //string sample = "Run2015D_05Oct2015_v1";
 //string sample = "Run2015D_PromptReco_v4";
 ///////////////////////////////////////////////////////////////////////////////////////
-
-//string outDir = "/data/jbrandstetter/CMGTools/rootFiles_0511/";
-//string outDir = "/data/jbrandstetter/CMGTools/rootFiles_2510/";
-//string outDir = "/data/jbrandstetter/CMGTools/rootFiles_2711/";
-//string outDir = "/data/jbrandstetter/CMGTools/rootFiles_151201/";
-//string outDir = "/data/jbrandstetter/CMGTools/rootFiles_151211/";
-string outDir = "/data/jbrandstetter/CMGTools/syncro/";
-//string outDir = "/data/jbrandstetter/CMGTools/testFiles/";
+//string outDir = "/data/jbrandstetter/CMGTools/rootFiles_160107/";
+//string outDir = "/data/jbrandstetter/CMGTools/rootFiles_160114/";
+string outDir = "/data/jbrandstetter/CMGTools/rootFiles_160120/";
+//string outDir = "/data/jbrandstetter/CMGTools/syncro/syncro_160120/";
 //////////////////////////////////////////////////////////////////////////////////////
-double lumi = 1470; //pb-1
+double lumi = 2240; //pb-1
 double sigma_DY = 6025.2; //pb
 double sigma_wjets = 61526.7;
 double sigma_ttbar = 831.76;
+double sigma_QCD = 720648000;
 double sigma_VBFHiggs = 3.748*0.06;
 
-double events_DY = 9042031*0.85;
-//double events_DY = 9052671;
+double events_DY = 9042031;
 double events_wjets = 72207128;
+double events_QCD = 13247363;
 double events_ttbar = 96834559;
-double events_VBFHiggs = 1240000;
+double events_VBFHiggs = 1478412;
+
+double filter_DY = 1.;
+double filter_wjets = 1.;
+double filter_QCD = 0.00042;
+double filter_ttbar = 1.;
 //////////////////////////////////////////////////////////////////////////////////////
 float lumiWeight=1.;
 float splitFactor=1.;
@@ -118,8 +115,6 @@ void TNtupleAnalyzer::initHistos(){
   getOutputString();
 
   fout_ntuple=new TFile(output.str().c_str(),"RECREATE");
-  //t_event=new TTree("event","event");
-  //t_event->Branch("nEvent",&nEvent);
 }
 
 void TNtupleAnalyzer::initHistos_syncBase(){
@@ -135,17 +130,6 @@ void TNtupleAnalyzer::initHistos_syncBase(){
 
 
   t_TauCheck->Branch("weight", &weight);
-  /*t_TauCheck->Branch("isZtt", &isZtt);
-  t_TauCheck->Branch("isZmt", &isZmt);
-  t_TauCheck->Branch("isZet", &isZet);
-  t_TauCheck->Branch("isZee", &isZee);
-  t_TauCheck->Branch("isZmm", &isZmm);
-  t_TauCheck->Branch("isZem", &isZem);
-  t_TauCheck->Branch("isZEE", &isZEE);
-  t_TauCheck->Branch("isZMM", &isZMM);
-  t_TauCheck->Branch("isZLL", &isZLL);
-  t_TauCheck->Branch("isFake", &isFake);*/
-  t_TauCheck->Branch("NUP", &NUP);
 
   t_TauCheck->Branch("gen_match_1", &gen_match_1);
   t_TauCheck->Branch("gen_match_2", &gen_match_2);
@@ -211,37 +195,45 @@ void TNtupleAnalyzer::initHistos_syncBase(){
     t_TauCheck->Branch("lep_etacentrality", &lep_etacentrality);
     t_TauCheck->Branch("sphericity", &sphericity);
 
-    t_TauCheck->Branch("nadditional", &nadditional);
-    t_TauCheck->Branch("addmuon_pt_1", &addmuon_pt_1);
-    t_TauCheck->Branch("addmuon_eta_1", &addmuon_eta_1);
-    t_TauCheck->Branch("addmuon_phi_1", &addmuon_phi_1);
-    t_TauCheck->Branch("addmuon_m_1", &addmuon_m_1);
-    t_TauCheck->Branch("addmuon_q_1", &addmuon_q_1);
-    t_TauCheck->Branch("addmuon_iso_1", &addmuon_iso_1);
-    t_TauCheck->Branch("addmuon_pt_2", &addmuon_pt_2);
-    t_TauCheck->Branch("addmuon_eta_2", &addmuon_eta_2);
-    t_TauCheck->Branch("addmuon_phi_2", &addmuon_phi_2);
-    t_TauCheck->Branch("addmuon_m_2", &addmuon_m_2);
-    t_TauCheck->Branch("addmuon_q_2", &addmuon_q_2);
-    t_TauCheck->Branch("addmuon_iso_2", &addmuon_iso_2);
-    t_TauCheck->Branch("addmuon_pt_3", &addmuon_pt_3);
-    t_TauCheck->Branch("addmuon_eta_3", &addmuon_eta_3);
-    t_TauCheck->Branch("addmuon_phi_3", &addmuon_phi_3);
-    t_TauCheck->Branch("addmuon_m_3", &addmuon_m_3);
-    t_TauCheck->Branch("addmuon_q_3", &addmuon_q_3);
-    t_TauCheck->Branch("addmuon_iso_3", &addmuon_iso_3);
-    t_TauCheck->Branch("addmuon_pt_4", &addmuon_pt_4);
-    t_TauCheck->Branch("addmuon_eta_4", &addmuon_eta_4);
-    t_TauCheck->Branch("addmuon_phi_4", &addmuon_phi_4);
-    t_TauCheck->Branch("addmuon_m_4", &addmuon_m_4);
-    t_TauCheck->Branch("addmuon_q_4", &addmuon_q_4);
-    t_TauCheck->Branch("addmuon_iso_4", &addmuon_iso_4);
+    t_TauCheck->Branch("nadditionalMu", &nadditionalMu);
+    t_TauCheck->Branch("addmuon_pt", &addmuon_pt);
+    t_TauCheck->Branch("addmuon_eta", &addmuon_eta);
+    t_TauCheck->Branch("addmuon_phi", &addmuon_phi);
+    t_TauCheck->Branch("addmuon_m", &addmuon_m);
+    t_TauCheck->Branch("addmuon_q", &addmuon_q);
+    t_TauCheck->Branch("addmuon_iso", &addmuon_iso);
+    t_TauCheck->Branch("addmuon_gen_match", &addmuon_gen_match);
+
+    t_TauCheck->Branch("nadditionalTau", &nadditionalTau);
+    t_TauCheck->Branch("addtau_pt", &addtau_pt);
+    t_TauCheck->Branch("addtau_eta", &addtau_eta);
+    t_TauCheck->Branch("addtau_phi", &addtau_phi);
+    t_TauCheck->Branch("addtau_m", &addtau_m);
+    t_TauCheck->Branch("addtau_q", &addtau_q);
+    t_TauCheck->Branch("addtau_byCombinedIsolationDeltaBetaCorrRaw3Hits", &addtau_byCombinedIsolationDeltaBetaCorrRaw3Hits);
+    t_TauCheck->Branch("addtau_byMediumCombinedIsolationDeltaBetaCorr3Hits", &addtau_byMediumCombinedIsolationDeltaBetaCorr3Hits);
+    t_TauCheck->Branch("addtau_byTightCombinedIsolationDeltaBetaCorr3Hits", &addtau_byTightCombinedIsolationDeltaBetaCorr3Hits);
+    t_TauCheck->Branch("addtau_byLooseCombinedIsolationDeltaBetaCorr3Hits", &addtau_byLooseCombinedIsolationDeltaBetaCorr3Hits);
+    t_TauCheck->Branch("addtau_passesTauLepVetos", &addtau_passesTauLepVetos);
+    t_TauCheck->Branch("addtau_decayMode", &addtau_decayMode);
+    t_TauCheck->Branch("addtau_d0", &addtau_d0);
+    t_TauCheck->Branch("addtau_dZ", &addtau_dZ);
+    t_TauCheck->Branch("addtau_gen_match", &addtau_gen_match);
+    t_TauCheck->Branch("addtau_mvamt", &addtau_mvamt);
+    t_TauCheck->Branch("addtau_mvis", &addtau_mvis);    
   }
   
-  t_TauCheck->Branch("passesIsoCuts", &passesIsoCuts);
-  t_TauCheck->Branch("passesLepIsoCuts", &passesLepIsoCuts);
-  t_TauCheck->Branch("passesTauLepVetos", &passesTauLepVetos);
-  t_TauCheck->Branch("passesThirdLepVeto", &passesThirdLepVeto);
+  if(!isSync){
+    t_TauCheck->Branch("passesIsoCuts", &passesIsoCuts);
+    t_TauCheck->Branch("passesLepIsoCuts", &passesLepIsoCuts);
+    t_TauCheck->Branch("passesTauLepVetos", &passesTauLepVetos);
+    t_TauCheck->Branch("passesThirdLepVeto", &passesThirdLepVeto);
+    t_TauCheck->Branch("passesDiMuonVeto", &passesDiMuonVeto);
+    t_TauCheck->Branch("passesDiElectronVeto", &passesDiElectronVeto);
+  }
+  t_TauCheck->Branch("dilepton_veto", &dilepton_veto);
+  t_TauCheck->Branch("extraelec_veto", &extraelec_veto);
+  t_TauCheck->Branch("extramuon_veto", &extramuon_veto);
   t_TauCheck->Branch("met", &met);
   t_TauCheck->Branch("metphi", &metphi);
   t_TauCheck->Branch("mvamet", &mvamet);

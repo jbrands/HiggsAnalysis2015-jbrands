@@ -1,0 +1,276 @@
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.13:UseBaggedBoost:BaggedSampleFraction=0.6:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1600
+111001111100 : AMS_syststat=2.25382 , for training AMS_syststat=2.30976;
+       AMS_syst=2.35005 , for training AMS_syst=2.42424;
+       AMS=     2.43725 , for training AMS=2.5084
+Best value: AMS_ss 1 with FoM=2.25382 +0.181189 -0.170678;  AMS1 with FoM=2.35005
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.13:UseBaggedBoost:BaggedSampleFraction=0.6:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1600
+111001111100 : AMS_syststat=2.44182 , for training AMS_syststat=2.44529;
+       AMS_syst=2.56271 , for training AMS_syst=2.59259;
+       AMS=     2.64387 , for training AMS=2.66576
+Best value: AMS_ss 1 with FoM=2.44182 +0.152785 -0.196517;  AMS1 with FoM=2.56271
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.13:UseBaggedBoost:BaggedSampleFraction=0.6:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1600
+111001111100 : AMS_syststat=2.44182 , for training AMS_syststat=2.44529;
+       AMS_syst=2.56271 , for training AMS_syst=2.59259;
+       AMS=     2.64387 , for training AMS=2.66576
+Best value: AMS_ss 1 with FoM=2.44182 +0.152785 -0.196517;  AMS1 with FoM=2.56271
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=2.61062 , for training AMS_syststat=2.39885;
+       AMS_syst=2.73326 , for training AMS_syst=2.5745;
+       AMS=     2.81462 , for training AMS=2.65251
+Best value: AMS_ss 1 with FoM=2.61062 +0.141701 -0.19374;  AMS1 with FoM=2.73326
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=2.61062 , for training AMS_syststat=2.39885;
+       AMS_syst=2.73326 , for training AMS_syst=2.5745;
+       AMS=     2.81462 , for training AMS=2.65251
+Best value: AMS_ss 1 with FoM=2.61062 +0.141701 -0.19374;  AMS1 with FoM=2.73326
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=2.61062 , for training AMS_syststat=2.39885;
+       AMS_syst=2.73326 , for training AMS_syst=2.5745;
+       AMS=     2.81462 , for training AMS=2.65251
+Best value: AMS_ss 1 with FoM=2.61062 +0.141701 -0.19374;  AMS1 with FoM=2.73326
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=2.61062 , for training AMS_syststat=2.39885;
+       AMS_syst=2.73326 , for training AMS_syst=2.5745;
+       AMS=     2.81462 , for training AMS=2.65251
+Best value: AMS_ss 1 with FoM=2.61062 +0.141701 -0.19374;  AMS1 with FoM=2.73326
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1600
+111001111100 : AMS_syststat=2.58297 , for training AMS_syststat=2.60926;
+       AMS_syst=2.71501 , for training AMS_syst=2.76045;
+       AMS=     2.79377 , for training AMS=2.83542
+Best value: AMS_ss 1 with FoM=2.58297 +0.145149 -0.198683;  AMS1 with FoM=2.71501
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=2.61062 , for training AMS_syststat=2.39885;
+       AMS_syst=2.73326 , for training AMS_syst=2.5745;
+       AMS=     2.81462 , for training AMS=2.65251
+Best value: AMS_ss 1 with FoM=2.61062 +0.141701 -0.19374;  AMS1 with FoM=2.73326
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=0.420224 , for training AMS_syststat=0.348326;
+       AMS_syst=0.802049 , for training AMS_syst=0.686975;
+       AMS=     0.971196 , for training AMS=0.877372
+Best value: AMS_ss 1 with FoM=0.420224 +0.0936931 -0.0259073;  AMS1 with FoM=0.802049
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=0.420224 , for training AMS_syststat=0.348326;
+       AMS_syst=0.802049 , for training AMS_syst=0.686975;
+       AMS=     0.971196 , for training AMS=0.877372
+Best value: AMS_ss 1 with FoM=0.420224 +0.0936931 -0.0259073;  AMS1 with FoM=0.802049
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=2.61062 , for training AMS_syststat=2.39885;
+       AMS_syst=2.73326 , for training AMS_syst=2.5745;
+       AMS=     2.81462 , for training AMS=2.65251
+Best value: AMS_ss 1 with FoM=2.61062 +0.141701 -0.19374;  AMS1 with FoM=2.73326
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=1.73206 , for training AMS_syststat=2.45445;
+       AMS_syst=1.90565 , for training AMS_syst=2.56193;
+       AMS=     1.955 , for training AMS=2.59464
+Best value: AMS_ss 1 with FoM=1.73206 +0.0368477 -0.0562838;  AMS1 with FoM=1.90565
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=2.61062 , for training AMS_syststat=2.39885;
+       AMS_syst=2.73326 , for training AMS_syst=2.5745;
+       AMS=     2.81462 , for training AMS=2.65251
+Best value: AMS_ss 1 with FoM=2.61062 +0.141701 -0.19374;  AMS1 with FoM=2.73326
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=4.5%:NTrees=1300
+111001111100 : AMS_syststat=2.43617 , for training AMS_syststat=2.5652;
+       AMS_syst=2.56627 , for training AMS_syst=2.73256;
+       AMS=     2.6483 , for training AMS=2.80711
+Best value: AMS_ss 1 with FoM=2.43617 +0.158398 -0.199287;  AMS1 with FoM=2.56627
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=2.61062 , for training AMS_syststat=2.39885;
+       AMS_syst=2.73326 , for training AMS_syst=2.5745;
+       AMS=     2.81462 , for training AMS=2.65251
+Best value: AMS_ss 1 with FoM=2.61062 +0.141701 -0.19374;  AMS1 with FoM=2.73326
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=2.61062 , for training AMS_syststat=2.39885;
+       AMS_syst=2.73326 , for training AMS_syst=2.5745;
+       AMS=     2.81462 , for training AMS=2.65251
+Best value: AMS_ss 1 with FoM=2.61062 +0.141701 -0.19374;  AMS1 with FoM=2.73326
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=2.61062 , for training AMS_syststat=2.39885;
+       AMS_syst=2.73326 , for training AMS_syst=2.5745;
+       AMS=     2.81462 , for training AMS=2.65251
+Best value: AMS_ss 1 with FoM=2.61062 +0.141701 -0.19374;  AMS1 with FoM=2.73326
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=2.61062 , for training AMS_syststat=2.39885;
+       AMS_syst=2.73326 , for training AMS_syst=2.5745;
+       AMS=     2.81462 , for training AMS=2.65251
+Best value: AMS_ss 1 with FoM=2.61062 +0.141701 -0.19374;  AMS1 with FoM=2.73326
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.06:UseBaggedBoost:BaggedSampleFraction=0.75:nCuts=20:MaxDepth=3:MinNodeSize=4.4%:NTrees=1500
+111001101101 : AMS_syststat=1.94425 , for training AMS_syststat=0.476452;
+       AMS_syst=2.19612 , for training AMS_syst=0.890989;
+       AMS=     2.27241 , for training AMS=1.06131
+Best value: AMS_ss 1 with FoM=1.94425 +0.0543343 -0.163723;  AMS1 with FoM=2.19612
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.07:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=3:MinNodeSize=4.0%:NTrees=1500
+110101101101 : AMS_syststat=0.58629 , for training AMS_syststat=0.46413;
+       AMS_syst=0.962598 , for training AMS_syst=0.892501;
+       AMS=     1.12566 , for training AMS=1.11086
+Best value: AMS_ss 1 with FoM=0.58629 +0.0575514 -0.0545271;  AMS1 with FoM=0.962598
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.07:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=3:MinNodeSize=4.0%:NTrees=1500
+110101101101 : AMS_syststat=0.58629 , for training AMS_syststat=0.46413;
+       AMS_syst=0.962598 , for training AMS_syst=0.892501;
+       AMS=     1.12566 , for training AMS=1.11086
+Best value: AMS_ss 1 with FoM=0.58629 +0.0575514 -0.0545271;  AMS1 with FoM=0.962598
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=2.61062 , for training AMS_syststat=2.39885;
+       AMS_syst=2.73326 , for training AMS_syst=2.5745;
+       AMS=     2.81462 , for training AMS=2.65251
+Best value: AMS_ss 1 with FoM=2.61062 +0.141701 -0.19374;  AMS1 with FoM=2.73326
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+011001111101 : AMS_syststat=0.0479627 , for training AMS_syststat=0.124401;
+       AMS_syst=0.0763866 , for training AMS_syst=0.174829;
+       AMS=     0.168865 , for training AMS=0.255613
+Best value: AMS_ss 1 with FoM=0.0479627 +0.00204042 -0.00293524;  AMS1 with FoM=0.0763866
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001101100 : AMS_syststat=0.0764613 , for training AMS_syststat=0.543253;
+       AMS_syst=0.182646 , for training AMS_syst=0.732437;
+       AMS=     0.355361 , for training AMS=0.914522
+Best value: AMS_ss 1 with FoM=0.0764613 +0.00196008 -0.00291345;  AMS1 with FoM=0.182646
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=0.0973295 , for training AMS_syststat=0.557275;
+       AMS_syst=0.243207 , for training AMS_syst=0.754083;
+       AMS=     0.415582 , for training AMS=0.933546
+Best value: AMS_ss 1 with FoM=0.0973295 +0.00384494 -0.00144332;  AMS1 with FoM=0.243207
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=0.0973295 , for training AMS_syststat=0.557275;
+       AMS_syst=0.243207 , for training AMS_syst=0.754083;
+       AMS=     0.415582 , for training AMS=0.933546
+Best value: AMS_ss 1 with FoM=0.0973295 +0.00384494 -0.00144332;  AMS1 with FoM=0.243207
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=0.110253 , for training AMS_syststat=0.595695;
+       AMS_syst=0.269765 , for training AMS_syst=0.727985;
+       AMS=     0.449975 , for training AMS=0.925235
+Best value: AMS_ss 1 with FoM=0.110253 +0.00345518 -0.00162891;  AMS1 with FoM=0.269765
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=0.110253 , for training AMS_syststat=0.595695;
+       AMS_syst=0.269765 , for training AMS_syst=0.727985;
+       AMS=     0.449975 , for training AMS=0.925235
+Best value: AMS_ss 1 with FoM=0.110253 +0.00345518 -0.00162891;  AMS1 with FoM=0.269765
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=0.110253 , for training AMS_syststat=0.595695;
+       AMS_syst=0.269765 , for training AMS_syst=0.727985;
+       AMS=     0.449975 , for training AMS=0.925235
+Best value: AMS_ss 1 with FoM=0.110253 +0.00345518 -0.00162891;  AMS1 with FoM=0.269765
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=0.110253 , for training AMS_syststat=0.595695;
+       AMS_syst=0.269765 , for training AMS_syst=0.727985;
+       AMS=     0.449975 , for training AMS=0.925235
+Best value: AMS_ss 1 with FoM=0.110253 +0.00345518 -0.00162891;  AMS1 with FoM=0.269765
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+#############################################
+1 of 1:	 Value = 1	 String: !H:!V:BoostType=Grad:Shrinkage=0.17:UseBaggedBoost:BaggedSampleFraction=0.4:nCuts=40:MaxDepth=3:MinNodeSize=3.5%:NTrees=1300
+111001111100 : AMS_syststat=0.110253 , for training AMS_syststat=0.595695;
+       AMS_syst=0.269765 , for training AMS_syst=0.727985;
+       AMS=     0.449975 , for training AMS=0.925235
+Best value: AMS_ss 1 with FoM=0.110253 +0.00345518 -0.00162891;  AMS1 with FoM=0.269765

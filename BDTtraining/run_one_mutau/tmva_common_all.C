@@ -43,9 +43,10 @@ std::string opt_usevar_cbsv="111101001110"; //CB for ROC
 std::string opt_usevar_cb=  "011101001110"; //CB
 //std::string opt_usevar_bdt="110101101101"; //BDT 1bg
 //std::string opt_usevar_bdt="111001011101"; //BDT ele
-std::string opt_usevar_bdt="011001111101"; //BDT mu  
+std::string opt_usevar_bdt="111001111100"; //BDT mu  
 //std::string opt_usevar_bdt="111001111100"; //BDT mu_ele  
 std::string opt_usevar=opt_usevar_bdt;
+std::string test = "BLABLABLABLA";
 //std::string opt_usevar=opt_usevar_cb;
 //old: coll_mass    new: svfit_mass
 const std::string varnames[NVAR]={"svfit_mass","dr_leptau","jdeta","mjj","jeta1eta2","mvapt_VBF","met_centrality","mvamt_1","lep_etacentrality","mvapt_sum_VBF","sphericity","m_vis"};

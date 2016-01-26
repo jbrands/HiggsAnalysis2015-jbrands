@@ -15,7 +15,6 @@ void Analyzer() {
   // Load TNtupleAnalyzer
   gROOT->ProcessLine(".L ntuple.C+");
   gROOT->ProcessLine(".L RecObj.h+O");
-  //gROOT->ProcessLine(".L helpCalc.h+O");
   gROOT->ProcessLine(".L TNtupleAnalyzer.C+");
 
   //gROOT->ProcessLine(".L RecObj.h+O");
@@ -61,29 +60,61 @@ void Analyzer() {
   }
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
   else if(sample=="MC_VBFHiggs"){
-    loadFile("/data/jbrandstetter/CMGTools/VBFHToTauTau_M125/*.root");
+    loadFile("/data/jbrandstetter/CMGTools/VBFHToTauTau_M125_160105/*.root");
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
   else if(sample=="MC_WJetsToLNu_madgraphMLM"){
-    loadFile("/data/jbrandstetter/CMGTools/WJetsToLNu_madgraphMLM/*.root");
+    if(channel=="mt"){
+      loadFile("/data/jbrandstetter/CMGTools/WJetsToLNu_madgraphMLM_tauMu_160115/*.root");
+    }
+    else if(channel=="et"){
+      loadFile("/data/jbrandstetter/CMGTools/WJetsToLNu_madgraphMLM_tauEle_151208/*.root");
+    }
   }
   else if(sample=="MC_DYJetsToLL_madgraphMLM"){
-    loadFile("/data/jbrandstetter/CMGTools/DYJetsToLL_M50_madgraphMLM/*.root");
+    if(channel=="mt"){
+      //loadFile("/data/jbrandstetter/CMGTools/DYJetsToLL_M50_madgraphMLM_tauMu_160112/*.root");
+      loadFile("/data/jbrandstetter/CMGTools/DYJetsToLL_M50_madgraphMLM_tauMu_160113/*.root");
+    }
+    else if(channel=="et"){
+      loadFile("/data/jbrandstetter/CMGTools/DYJetsToLL_M50_madgraphMLM_tauEle_160102/*.root");
+    }
   }
   else if(sample=="MC_DYJetsToLL_madgraphMLM_old"){
     loadFile("/data/jbrandstetter/CMGTools/DYJetsToLL_M50_madgraphMLM_old/*.root");
   }
   else if(sample=="MC_TTbar_powheg"){
-    loadFile("/data/jbrandstetter/CMGTools/TT_powheg/*.root");
+    if(channel=="mt"){
+      loadFile("/data/jbrandstetter/CMGTools/TT_powheg_tauMu_160116/*.root");
+    }
+    else if(channel=="et"){
+      loadFile("/data/jbrandstetter/CMGTools/TT_powheg_151209_tauEle/*.root");
+    }
+  }
+  else if(sample=="MC_QCD_Pt20toInf"){
+    if(channel=="mt"){
+      loadFile("/data/jbrandstetter/CMGTools/QCD_Pt20toInf_tauMu_160117/*.root");
+    }
+    else if(channel=="et"){
+      loadFile("/data/jbrandstetter/CMGTools/TT_powheg_151209_tauEle/*.root");
+    }
   }
   else if(sample=="Run2015D_05Oct2015_v1"){
-    //loadFile("/data/jbrandstetter/CMGTools/Run2015D_05Oct2015_151129/*.root");
-    loadFile("/data/jbrandstetter/CMGTools/Run2015D_05Oct2015_151129.root");
+    if(channel=="mt"){
+      loadFile("/data/jbrandstetter/CMGTools/Run2015D_05Oct2015_v1_tauMu_160114/*.root");
+    }
+    else if(channel=="et"){
+      loadFile("/data/jbrandstetter/CMGTools/Run2015D_05Oct2015_v1_tauEle_151227/*.root");
+    }
   }
   else if(sample=="Run2015D_PromptReco_v4"){
-    //loadFile("/data/jbrandstetter/CMGTools/Run2015D_PromptReco_v4_151205.root");
-    loadFile("/data/jbrandstetter/CMGTools/Run2015D_PromptReco_v4_151205/*.root");
+    if(channel=="mt"){
+      loadFile("/data/jbrandstetter/CMGTools/Run2015D_PromptReco_v4_tauMu_160113/*.root");
+    }
+    else if(channel=="et"){
+      loadFile("/data/jbrandstetter/CMGTools/Run2015D_PromptReco_v4_tauEle_151227/*.root");
+    }    
   }
   else{
     cerr << "No input file! " << endl;
